@@ -21,10 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->appendToGroup('web', [
-            // VerifyCsrfToken::class,
+            VerifyCsrfToken::class,
         ]);
         $middleware->alias([
             /**** OTHER MIDDLEWARE ALIASES ****/
+            'locale' => \App\Http\Middleware\SetLocaleFromHeader::class,
             'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
             'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
             'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
