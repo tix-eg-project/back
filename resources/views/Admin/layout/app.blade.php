@@ -34,20 +34,24 @@
             <div class="layout-page">
                 <!-- Navbar -->
 
-
                 @include('Admin.layout.nav')
+
                 <!-- / Navbar -->
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
-                    @yield('content')
 
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @yield('content')
+                    </div>
                     <!-- / Content -->
 
+                    <!-- Footer -->
+                    {{-- @include('Admin.dashboard.footer') --}}
+                    <!-- / Footer -->
 
-
-
+                    <div class="content-backdrop fade"></div>
                 </div>
                 <!-- Content wrapper -->
             </div>
@@ -60,12 +64,16 @@
     <!-- / Layout wrapper -->
 
 
-
-
     @include('Admin.layout.js')
 
-
-
+    @stack('scripts')
 </body>
+
+</html>
+
+
+
+
+
 
 </html>

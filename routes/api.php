@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\User\UserAuthController;
+use App\Http\Controllers\Api\User\Banner\BannerController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::prefix('auth/user')->group(function () {
     Route::post('register',            [UserAuthController::class, 'register']);
@@ -12,3 +14,8 @@ Route::prefix('auth/user')->group(function () {
     Route::post('verify-reset-code',   [UserAuthController::class, 'verifyResetCode']);
     Route::post('reset-password',      [UserAuthController::class, 'resetPassword']);
 });
+
+Route::middleware('locale')  // الآن بدون auth:sanctum
+    ->group(function () {
+        Route::get('banners',                       [BannerController::class, 'index']);
+    });
