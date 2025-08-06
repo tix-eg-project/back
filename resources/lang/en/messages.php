@@ -94,6 +94,22 @@ return [
     'description' => 'description',
     'actions' => 'actions',
 
+    'advertisements' => 'Advertisements',
+    'advertisement_added' => 'Advertisement added successfully.',
+    'advertisement_deleted' => 'Advertisement deleted successfully.',
+    'advertisements_list_retrieved' => 'Advertisements list retrieved successfully.',
+    'image_required' => 'The image field is required.',
+    'image_invalid' => 'The file must be an image.',
+    'image_mimes' => 'The image must be a file of type: jpeg, png, jpg, webp.',
+    'image_max' => 'The image size should not exceed 10MB.',
+    'advertisement' => 'Advertisement',
+    'add_advertisement' => 'Add Advertisement',
+    'edit_advertisement' => 'Edit Advertisement',
+    'advertisements_list' => 'Advertisements List',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'delete' => 'Delete',
+
 
 
 

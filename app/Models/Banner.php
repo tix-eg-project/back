@@ -3,15 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\HasMedia;
-use App\Enums\ImageEnum;
-use App\Helpers\MediaHelper;
+
 use App\Traits\HasTranslatedName;
 
-class Banner extends Model implements HasMedia
+class Banner extends Model
 {
-    use InteractsWithMedia, HasTranslatedName;
+    use  HasTranslatedName;
 
     protected $fillable = [
         'title',

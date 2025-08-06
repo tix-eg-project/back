@@ -3,9 +3,7 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Banner;
-use App\Helpers\MediaHelper;
-use App\Enums\ProductImage;
-use App\Enums\ImageEnum;
+
 use App\Helpers\ImageManger;
 
 class BannerService

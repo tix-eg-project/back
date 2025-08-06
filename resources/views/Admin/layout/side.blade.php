@@ -51,6 +51,13 @@
                 <div>{{ __('messages.banners') }}</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="{{ route('advertisements.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-image"></i>
+
+                <div>{{ __('messages.advertisements') }}</div>
+            </a>
+        </li>
 
 
 

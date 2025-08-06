@@ -94,4 +94,20 @@ return [
 
     'description' => 'الوصف',
     'actions' => 'الإجراءات',
+
+    'advertisements' => 'الإعلانات',
+    'advertisement_added' => 'تم إضافة الإعلان بنجاح.',
+    'advertisement_deleted' => 'تم حذف الإعلان بنجاح.',
+    'advertisements_list_retrieved' => 'تم استرجاع قائمة الإعلانات بنجاح.',
+    'image_required' => 'حقل الصورة مطلوب.',
+    'image_invalid' => 'يجب أن يكون الملف صورة.',
+    'image_mimes' => 'يجب أن تكون الصورة من نوع: jpeg, png, jpg, webp.',
+    'image_max' => 'يجب ألا يتجاوز حجم الصورة 10 ميجابايت.',
+    'advertisement' => 'إعلان',
+    'add_advertisement' => 'إضافة إعلان',
+    'edit_advertisement' => 'تعديل الإعلان',
+    'advertisements_list' => 'قائمة الإعلانات',
+    'save' => 'حفظ',
+    'cancel' => 'إلغاء',
+    'delete' => 'حذف',
 ];

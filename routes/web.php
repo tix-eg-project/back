@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
+use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -42,6 +43,13 @@ Route::group([
             Route::get('/{banner}/edit', [AdminBannerController::class, 'edit'])->name('edit');
             Route::put('/{banner}', [AdminBannerController::class, 'update'])->name('update');
             Route::delete('/{banner}', [AdminBannerController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('advertisements')->name('advertisements.')->group(function () {
+            Route::get('/', [AdminAdvertisementController::class, 'index'])->name('index');
+
+            Route::get('/create', [AdminAdvertisementController::class, 'create'])->name('create');
+            Route::post('/', [AdminAdvertisementController::class, 'store'])->name('store');
+            Route::delete('/{advertisement}', [AdminAdvertisementController::class, 'destroy'])->name('destroy');
         });
     });
 

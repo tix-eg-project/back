@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\User\UserAuthController;
+use App\Http\Controllers\Api\User\Advertisement\AdvertisementController;
 use App\Http\Controllers\Api\User\Banner\BannerController;
+use App\Models\Advertisement;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,5 +19,8 @@ Route::prefix('auth/user')->group(function () {
 
 Route::middleware('locale')  // الآن بدون auth:sanctum
     ->group(function () {
+
+
         Route::get('banners',                       [BannerController::class, 'index']);
+        Route::get('advertisements',                       [AdvertisementController::class, 'index']);
     });
