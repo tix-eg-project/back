@@ -14,24 +14,13 @@ trait HasTranslatedName
      */
     public function getNameAttribute($value)
     {
-        $locale = App::getLocale();
-        $fallback = config('app.fallback_locale');
+        $locale = app()->getLocale();  // الحصول على اللغة الحالية
+        $decodedValue = json_decode($value, true);  // فك تشفير الـ JSON إذا كان الحقل مخزنًا كـ JSON
 
-        // 1) إذا كان مُخزّن كـ JSON ومُعرّف في casts
-        if (is_array($value)) {
-            return $value[$locale]
-                ?? $value[$fallback]
-                ?? null;
-        }
-
-        // 2) إذا كان مُخزّن في عمودين منفصلين
-        $key = 'name_' . $locale;
-        if (isset($this->$key)) {
-            return $this->$key;
-        }
-
-        return $this->name_ar ?? null;
+        // التحقق إذا كانت القيمة عبارة عن مصفوفة (أي JSON)
+        return is_array($decodedValue) ? $decodedValue[$locale] ?? $decodedValue['en'] : $decodedValue;
     }
+
 
     /**
      * Accessor for the 'description' attribute.

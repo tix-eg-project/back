@@ -2,7 +2,6 @@
 
 namespace App\Services\Dashboard;
 
-use App\Helpers\ImageManager;
 use App\Helpers\ImageManger;
 use App\Models\Advertisement;
 

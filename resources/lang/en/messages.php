@@ -111,6 +111,16 @@ return [
     'delete' => 'Delete',
 
 
+    'add_category' => 'Add Category',
+    'name_string' => 'The name must be a string.',
+    'name_required' => 'The name field is required.',
+    'name_max' => 'The name may not be greater than 255 characters.',
+    'image_required' => 'The image field is required.',
+    'image_invalid' => 'The uploaded file must be an image.',
+    'image_mimes' => 'The image must be a file of type: jpeg, jpg, png, gif.',
+    'image_max' => 'The image may not be greater than 2MB.',
+
+
 
 
 

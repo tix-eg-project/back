@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\User\UserAuthController;
 use App\Http\Controllers\Api\User\Advertisement\AdvertisementController;
 use App\Http\Controllers\Api\User\Banner\BannerController;
+use App\Http\Controllers\Api\User\Category\CategoryController;
 use App\Models\Advertisement;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,5 @@ Route::middleware('locale')  // الآن بدون auth:sanctum
 
         Route::get('banners',                       [BannerController::class, 'index']);
         Route::get('advertisements',                       [AdvertisementController::class, 'index']);
+        Route::get('categories',                       [CategoryController::class, 'index']);
     });

@@ -1,12 +1,14 @@
 <?php
 
+use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
+use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
+use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
-use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
-use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 
 
@@ -50,6 +52,14 @@ Route::group([
             Route::get('/create', [AdminAdvertisementController::class, 'create'])->name('create');
             Route::post('/', [AdminAdvertisementController::class, 'store'])->name('store');
             Route::delete('/{advertisement}', [AdminAdvertisementController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('categories')->name('categories.')->group(function () {
+            Route::get('/', [AdminCategoryController::class, 'index'])->name('index');
+            Route::get('/create', [AdminCategoryController::class, 'create'])->name('create');
+            Route::post('/', [AdminCategoryController::class, 'store'])->name('store');
+            Route::get('/{category}/edit', [AdminCategoryController::class, 'edit'])->name('edit');
+            Route::put('/{category}', [AdminCategoryController::class, 'update'])->name('update');
+            Route::delete('/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
         });
     });
 
