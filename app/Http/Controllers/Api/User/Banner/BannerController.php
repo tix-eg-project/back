@@ -18,14 +18,13 @@ class BannerController extends Controller
      */
     public function index(): JsonResponse
     {
-        $banners = Banner::with('image')->latest()
+        $banners = Banner::latest()
             ->get()
-            ->filter(fn($banner) => $banner->hasMedia(ImageEnum::IMAGE))
             ->map(fn($banner) => [
-                'id'    => $banner->id,
-                'title' => $banner->title,
+                'id'          => $banner->id,
+                'title'       => $banner->title,
                 'description' => $banner->description,
-                'image' => $banner->getFirstMediaUrl(ImageEnum::IMAGE),
+                'image'       => asset($banner->image),
             ]);
 
         return ApiResponseHelper::success(

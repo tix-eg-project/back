@@ -16,6 +16,7 @@ class Banner extends Model implements HasMedia
     protected $fillable = [
         'title',
         'description',
+        'image',
     ];
 
     protected $casts = [
@@ -28,13 +29,19 @@ class Banner extends Model implements HasMedia
         'description',
     ];
 
-    public function registerMediaCollections(): void
+    public function getTitleAttribute($value)
     {
-        $this->addMediaCollection(ImageEnum::IMAGE)->singleFile();
+        $locale = app()->getLocale();
+        $decodedValue = json_decode($value, true);
+
+        return is_array($decodedValue) ? $decodedValue[$locale] ?? $decodedValue['en'] : $decodedValue;
     }
 
-    public function image()
+    public function getDescriptionAttribute($value)
     {
-        return MediaHelper::mediaRelationship($this, 'image');
+        $locale = app()->getLocale();
+        $decodedValue = json_decode($value, true);
+
+        return is_array($decodedValue) ? $decodedValue[$locale] ?? $decodedValue['en'] : $decodedValue;
     }
 }

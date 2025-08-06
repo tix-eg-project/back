@@ -35,6 +35,7 @@ return [
             'root'   => public_path('media'),
             'url'    => env('APP_URL') . '/media',
             'visibility' => 'public',
+            'throw' => false,
 
         ],
 
@@ -43,16 +44,14 @@ return [
             'root' => storage_path('app/private'),
             'serve' => true,
             'throw' => false,
-            'report' => false,
         ],
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => public_path(),
             'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
-            'report' => false,
         ],
 
         's3' => [

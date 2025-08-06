@@ -33,7 +33,7 @@ class MediaHelper
 
         if (file_exists($filePath)) {
             // اجبار الملف ليكون قابل للقراءة والتنفيذ
-            @chmod($filePath, 0644); // أو 0755 لو فعلاً لازم
+            @chmod($filePath, 0755); // أو 0755 لو فعلاً لازم
         }
     }
 }

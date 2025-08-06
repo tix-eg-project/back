@@ -2,33 +2,67 @@
 
 namespace App\Services\Dashboard;
 
-use App\Repositories\BannerRepository;
 use App\Models\Banner;
+use App\Helpers\MediaHelper;
+use App\Enums\ProductImage;
+use App\Enums\ImageEnum;
+use App\Helpers\ImageManger;
 
 class BannerService
 {
-    protected $bannerRepository;
+    public $imageManger;
 
-    public function __construct(BannerRepository $bannerRepository)
+    public function __construct(ImageManger $imageManger)
     {
-        $this->bannerRepository = $bannerRepository;
+        $this->imageManger = $imageManger;
     }
 
     public function store(array $data): Banner
     {
-        
-        return $this->bannerRepository->create($data);
+
+        $data['image'] = $this->imageManger->uploadImage('banners', $data['image']);
+
+        $banner = Banner::create(
+            [
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'image' => $data['image'],
+            ]
+        );
+
+        return $banner;
     }
 
     public function update(Banner $banner, array $data): Banner
     {
-        
-        return $this->bannerRepository->update($banner, $data);
+        $banner->update([
+            'title' => $data['title'],
+            'description' => $data['description'],
+        ]);
+
+
+        if (!empty($data['image'])) {
+
+            if ($banner->image) {
+            }
+
+
+            $banner->image = $this->imageManger->uploadImage('banners', $data['image']);
+        }
+
+
+        $banner->save();
+
+        return $banner;
     }
 
     public function delete(Banner $banner): bool
     {
-        
-        return $this->bannerRepository->delete($banner);
+
+        if ($banner->image) {
+            $this->imageManger->deleteImage($banner->image);  // حذف الصورة
+        }
+
+        return $banner->delete();
     }
 }

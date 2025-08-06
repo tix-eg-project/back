@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin\Banner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\Banner\StoreBannerRequest;
+use App\Http\Requests\Web\Admin\Banner\UpdateBannerRequest;
 use App\Models\Banner;
 use App\Services\Dashboard\BannerService;
 use Illuminate\Http\RedirectResponse;
@@ -29,14 +30,17 @@ class AdminBannerController extends Controller
 
     public function create()
     {
+
         return View::make('Admin.pages.banners.create');
     }
 
     public function store(StoreBannerRequest $request): RedirectResponse
     {
+        // dd($request->all());
 
         $this->bannerService->store($request->validated());
-        return Redirect::route('admin.banners.index')->with('success', __('messages.banner_created'));
+
+        return Redirect::route('banners.index')->with('success', __('messages.banner_created'));
     }
 
 
@@ -45,15 +49,15 @@ class AdminBannerController extends Controller
         return View::make('Admin.pages.banners.edit', compact('banner'));
     }
 
-    public function update(StoreBannerRequest $request, Banner $banner): RedirectResponse
+    public function update(UpdateBannerRequest $request, Banner $banner): RedirectResponse
     {
         $this->bannerService->update($banner, $request->validated());
-        return Redirect::route('admin.banners.index')->with('success', __('messages.banner_updated'));
+        return Redirect::route('banners.index')->with('success', __('messages.banner_updated'));
     }
 
     public function destroy(Banner $banner): RedirectResponse
     {
         $this->bannerService->delete($banner);
-        return Redirect::route('admin.banners.index')->with('success', __('messages.banner_deleted'));
+        return Redirect::route('banners.index')->with('success', __('messages.banner_deleted'));
     }
 }

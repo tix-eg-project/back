@@ -11,43 +11,25 @@
             @csrf
             @method('PUT')
 
-            {{-- Title AR --}}
+            {{-- Dynamic Translations --}}
+            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $locale)
             <div class="mb-3">
-                <label class="form-label">{{ __('messages.title') }} (AR)</label>
-                <input type="text" name="title[ar]" class="form-control @error('title.ar') is-invalid @enderror"
-                    value="{{ old('title.ar') ?? (json_decode($banner->getRawOriginal('title'), true)['ar'] ?? '') }}">
-                @error('title.ar')
+                <label class="form-label">{{ __('messages.title') }} ({{ strtoupper($localeCode) }})</label>
+                <input type="text" name="title[{{ $localeCode }}]" class="form-control @error(" title.$localeCode") is-invalid @enderror"
+                    value="{{ old("title.$localeCode") ?? (json_decode($banner->getRawOriginal('title'), true)[$localeCode] ?? '') }}">
+                @error("title.$localeCode")
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
 
-            {{-- Title EN --}}
             <div class="mb-3">
-                <label class="form-label">{{ __('messages.title') }} (EN)</label>
-                <input type="text" name="title[en]" class="form-control @error('title.en') is-invalid @enderror"
-                    value="{{ old('title.en') ?? (json_decode($banner->getRawOriginal('title'), true)['en'] ?? '') }}">
-                @error('title.en')
+                <label class="form-label">{{ __('messages.description') }} ({{ strtoupper($localeCode) }})</label>
+                <textarea name="description[{{ $localeCode }}]" class="form-control @error(" description.$localeCode") is-invalid @enderror">{{ old("description.$localeCode") ?? (json_decode($banner->getRawOriginal('description'), true)[$localeCode] ?? '') }}</textarea>
+                @error("description.$localeCode")
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
-
-            {{-- Description AR --}}
-            <div class="mb-3">
-                <label class="form-label">{{ __('messages.description') }} (AR)</label>
-                <textarea name="description[ar]" class="form-control @error('description.ar') is-invalid @enderror">{{ old('description.ar') ?? (json_decode($banner->getRawOriginal('description'), true)['ar'] ?? '') }}</textarea>
-                @error('description.ar')
-                <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Description EN --}}
-            <div class="mb-3">
-                <label class="form-label">{{ __('messages.description') }} (EN)</label>
-                <textarea name="description[en]" class="form-control @error('description.en') is-invalid @enderror">{{ old('description.en') ?? (json_decode($banner->getRawOriginal('description'), true)['en'] ?? '') }}</textarea>
-                @error('description.en')
-                <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
+            @endforeach
 
             {{-- Image --}}
             <div class="mb-3">
@@ -57,10 +39,11 @@
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
 
-                @if($banner->getFirstMediaUrl(\App\Enums\ImageEnum::IMAGE))
+                {{-- Check if image exists and display it --}}
+                @if($banner->image)
                 <div class="mt-2">
-                    <img src="{{ $banner->getFirstMediaUrl(\App\Enums\ImageEnum::IMAGE) }}" width="80" alt="current image">
-                    <small class="text-white d-block mt-1">{{ basename($banner->getFirstMediaPath(\App\Enums\ImageEnum::IMAGE)) }}</small>
+                    <img src="{{ asset($banner->image) }}" width="80" alt="current image">
+                    <small class="text-white d-block mt-1">{{ basename($banner->image) }}</small>
                 </div>
                 @endif
             </div>

@@ -65,7 +65,35 @@ return [
     'image_max'            => 'The image size must not exceed 2048 kilobytes',
 
     'title' =>  'Title',
-    'discription' =>  'Description',
+    'description' =>  'Description',
+    'image' =>  'Image',
+    'actions' =>  'Actions',
+
+
+
+    'name' => 'name',
+    'image' => 'image',
+    'actions' => 'actions',
+    'edit' => 'edit',
+    'delete' => 'delete',
+    'save' => 'save',
+    'update' => 'update',
+    'cancel' => 'cancel',
+    'select' => 'select',
+    'search' => 'search',
+    'no_data' => 'no_data',
+    'confirm_delete' => 'confirm_delete',
+    'show' => 'show',
+    'active' => 'active',
+    'inactive' => 'inactive',
+    'status' => 'status',
+    'details' => 'details',
+
+    'banners' => 'banners',
+
+    'description' => 'description',
+    'actions' => 'actions',
+
 
 
 

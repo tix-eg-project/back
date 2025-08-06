@@ -15,7 +15,7 @@ class BannerRepository
             'description' => $data['description'],
         ]);
 
-
+        // تحميل الصورة بعد إنشاء الـ Banner
         $this->uploadImage($banner, $data['image'] ?? null);
 
         return $banner;
@@ -28,7 +28,7 @@ class BannerRepository
             'description' => $data['description'],
         ]);
 
-
+        // تحميل الصورة بعد تحديث الـ Banner
         if (!empty($data['image'])) {
             $this->uploadImage($banner, $data['image']);
         }

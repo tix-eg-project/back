@@ -1,5 +1,4 @@
 @extends('Admin.layout.app')
-
 @section('title', __('messages.add_banner'))
 
 @section('content')
@@ -10,45 +9,25 @@
         <form method="POST" action="{{ route('banners.store') }}" enctype="multipart/form-data">
             @csrf
 
-            {{-- Title AR --}}
+            {{-- Dynamic Translations --}}
+            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $locale)
             <div class="mb-3">
-                <label class="form-label">{{ __('messages.title') }} (AR)</label>
-                <input type="text" name="title[ar]" class="form-control @error('title.ar') is-invalid @enderror"
-                    value="{{ old('title.ar') }}">
-                @error('title.ar')
+                <label class="form-label">{{ __('messages.title') }} ({{ strtoupper($localeCode) }})</label>
+                <input type="text" name="title[{{ $localeCode }}]" class="form-control @error(" title.$localeCode") is-invalid @enderror" value="{{ old("title.$localeCode") }}">
+                @error("title.$localeCode")
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
 
-            {{-- Title EN --}}
             <div class="mb-3">
-                <label class="form-label">{{ __('messages.title') }} (EN)</label>
-                <input type="text" name="title[en]" class="form-control @error('title.en') is-invalid @enderror"
-                    value="{{ old('title.en') }}">
-                @error('title.en')
+                <label class="form-label">{{ __('messages.description') }} ({{ strtoupper($localeCode) }})</label>
+                <textarea name="description[{{ $localeCode }}]" class="form-control @error(" description.$localeCode") is-invalid @enderror">{{ old("description.$localeCode") }}</textarea>
+                @error("description.$localeCode")
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
+            @endforeach
 
-            {{-- Description AR --}}
-            <div class="mb-3">
-                <label class="form-label">{{ __('messages.description') }} (AR)</label>
-                <textarea name="description[ar]" class="form-control @error('description.ar') is-invalid @enderror">{{ old('description.ar') }}</textarea>
-                @error('description.ar')
-                <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Description EN --}}
-            <div class="mb-3">
-                <label class="form-label">{{ __('messages.description') }} (EN)</label>
-                <textarea name="description[en]" class="form-control @error('description.en') is-invalid @enderror">{{ old('description.en') }}</textarea>
-                @error('description.en')
-                <div class="invalid-feedback d-block">{{ $message }}</div>
-                @enderror
-            </div>
-
-            {{-- Image --}}
             <div class="mb-3">
                 <label class="form-label">{{ __('messages.image') }}</label>
                 <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">

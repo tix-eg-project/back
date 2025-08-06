@@ -90,5 +90,8 @@ return [
     'status' => 'الحالة',
     'details' => 'تفاصيل',
 
-    'banners' => 'البنرات'
+    'banners' => 'البنرات',
+
+    'description' => 'الوصف',
+    'actions' => 'الإجراءات',
 ];
