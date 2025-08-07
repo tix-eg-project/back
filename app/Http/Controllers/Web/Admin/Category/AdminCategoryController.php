@@ -20,16 +20,10 @@ class AdminCategoryController extends Controller
     public function index(Request $request)
     {
         $query = Category::latest();
-
-
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-
-
         $categories = $query->paginate(10);
-
-
         return view('Admin.pages.categories.index', compact('categories'));
     }
 

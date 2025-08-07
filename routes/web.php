@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Web\AdminProfileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
@@ -26,19 +28,17 @@ Route::group([
 
         return redirect()->route('admin.login');
     });
-
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth:admin');
 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [LoginController::class, 'login']);
+    Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/tables', [AdminController::class, 'tables'])->name('admin.tables');
         Route::get('/billing', [AdminController::class, 'billing'])->name('admin.billing');
         Route::get('/virtual-reality', [AdminController::class, 'virtualReality'])->name('admin.virtual-reality');
         Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
-
-
 
         Route::prefix('banners')->name('banners.')->group(function () {
             Route::get('/', [AdminBannerController::class, 'index'])->name('index');
@@ -48,13 +48,14 @@ Route::group([
             Route::put('/{banner}', [AdminBannerController::class, 'update'])->name('update');
             Route::delete('/{banner}', [AdminBannerController::class, 'destroy'])->name('destroy');
         });
+
         Route::prefix('advertisements')->name('advertisements.')->group(function () {
             Route::get('/', [AdminAdvertisementController::class, 'index'])->name('index');
-
             Route::get('/create', [AdminAdvertisementController::class, 'create'])->name('create');
             Route::post('/', [AdminAdvertisementController::class, 'store'])->name('store');
             Route::delete('/{advertisement}', [AdminAdvertisementController::class, 'destroy'])->name('destroy');
         });
+
         Route::prefix('categories')->name('categories.')->group(function () {
             Route::get('/', [AdminCategoryController::class, 'index'])->name('index');
             Route::get('/create', [AdminCategoryController::class, 'create'])->name('create');
@@ -81,7 +82,10 @@ Route::group([
             Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
             Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
         });
-    });
 
-    // يمكنك إضافة المزيد من الصفحات هنا حسب الحاجة
+        Route::prefix('users')->group(function () {
+            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
+            Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
+        });
+    });
 });

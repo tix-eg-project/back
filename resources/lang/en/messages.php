@@ -83,6 +83,9 @@ return [
     'Add City' => 'Add City',
     'Select Country' => 'Select Country',
     'Update City' => 'Update City',
+    'Number Of City' => 'Number Of City',
+    'Show' => 'Show',
+    'Number Of Country' => 'Number Of Country',
 
     'name' => 'name',
     'image' => 'image',
@@ -122,7 +125,15 @@ return [
     'save' => 'Save',
     'cancel' => 'Cancel',
     'delete' => 'Delete',
-
+    'My Profile' => 'My Profile',
+    'Address' => 'Address',
+    'Email' => 'Email',
+    'Phone' => 'Phone',
+    'Update' => 'Update',
+    'add_banner' => 'add_banner',
+    'Search by Category name' => 'Search by Category name',
+    'Add Categoey+' => 'Add Categoey+',
+    'Categories' => 'Categories',
 
     'add_category' => 'Add Category',
     'name_string' => 'The name must be a string.',
@@ -132,9 +143,4 @@ return [
     'image_invalid' => 'The uploaded file must be an image.',
     'image_mimes' => 'The image must be a file of type: jpeg, jpg, png, gif.',
     'image_max' => 'The image may not be greater than 2MB.',
-
-
-
-
-
 ];
