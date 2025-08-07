@@ -22,7 +22,7 @@ class CategoryController extends Controller
             ->map(fn($category) => [
                 'id'          => $category->id,
                 'name'       => $category->name,
-                'image'       => asset($category->image),
+                //'image'       => asset($category->image),
             ]);
 
         return ApiResponseHelper::success(

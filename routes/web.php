@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
+use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\Admin\City\CityController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
 use App\Http\Controllers\Web\AdminController;
@@ -64,28 +65,38 @@ Route::group([
             Route::put('/{category}', [AdminCategoryController::class, 'update'])->name('update');
             Route::delete('/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
         });
-
-        Route::prefix('countries')->group(function () {
-            Route::get('/', [CountryController::class, 'index'])->name('country.index');
-            Route::get('/create', [CountryController::class, 'create'])->name('country.create');
-            Route::post('/', [CountryController::class, 'store'])->name('country.store');
-            Route::get('/{id}/edit', [CountryController::class, 'edit'])->name('country.edit');
-            Route::put('/{id}', [CountryController::class, 'update'])->name('country.update');
-            Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
+        Route::prefix('subcategories')->name('subcategories.')->group(function () {
+            Route::get('/', [AdminSubcategoryController::class, 'index'])->name('index');
+            Route::get('/create', [AdminSubcategoryController::class, 'create'])->name('create');
+            Route::post('/', [AdminSubcategoryController::class, 'store'])->name('store');
+            Route::get('/{subcategory}/edit', [AdminSubcategoryController::class, 'edit'])->name('edit');
+            Route::put('/{subcategory}', [AdminSubcategoryController::class, 'update'])->name('update');
+            Route::delete('/{subcategory}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
         });
+    });
 
-        Route::prefix('cities')->group(function () {
-            Route::get('/', [CityController::class, 'index'])->name('cities.index');
-            Route::get('/create', [CityController::class, 'create'])->name('cities.create');
-            Route::post('/', [CityController::class, 'store'])->name('cities.store');
-            Route::get('/{id}/edit', [CityController::class, 'edit'])->name('cities.edit');
-            Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
-            Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
-        });
+    // يمكنك إضافة المزيد من الصفحات هنا حسب الحاجة
 
-        Route::prefix('users')->group(function () {
-            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
-            Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
-        });
+    Route::prefix('countries')->group(function () {
+        Route::get('/', [CountryController::class, 'index'])->name('country.index');
+        Route::get('/create', [CountryController::class, 'create'])->name('country.create');
+        Route::post('/', [CountryController::class, 'store'])->name('country.store');
+        Route::get('/{id}/edit', [CountryController::class, 'edit'])->name('country.edit');
+        Route::put('/{id}', [CountryController::class, 'update'])->name('country.update');
+        Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
+    });
+
+    Route::prefix('cities')->group(function () {
+        Route::get('/', [CityController::class, 'index'])->name('cities.index');
+        Route::get('/create', [CityController::class, 'create'])->name('cities.create');
+        Route::post('/', [CityController::class, 'store'])->name('cities.store');
+        Route::get('/{id}/edit', [CityController::class, 'edit'])->name('cities.edit');
+        Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
+        Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
+        Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
     });
 });

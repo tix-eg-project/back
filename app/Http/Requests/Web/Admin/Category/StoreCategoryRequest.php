@@ -10,7 +10,9 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
 
-            'name' => 'required|array|max:255',
+            'name*' => '*|array|between:2,255',
+            'name.ar' => 'required|string|max:255',
+            'name.en' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
         ];
     }

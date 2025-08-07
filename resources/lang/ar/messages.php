@@ -111,6 +111,47 @@ return [
     'cancel' => 'إلغاء',
     'delete' => 'حذف',
 
+    'categories' => 'الفئات',
+    'category_added' => 'تم اضافة الفئة بنجاح.',
+    'category_deleted' => 'تم حذف الفئة بنجاح.',
+    'categories_list_retrieved' => 'تم استرجاع قايمة الفئات بنجاح.',
+    'image_required' => 'حقل الصورة مطلوب.',
+    'image_invalid' => 'يجب ان يكون الملف صورة.',
+    'image_mimes' => 'يجب ان تكون الصورة من نوع: jpeg, png, jpg, gif.',
+    'image_max' => 'يجب ان لا يتجاوز حجم الصورة 2 ميجابايت.',
+    'category' => 'فئة',
+    'add_category' => 'اضافة فئة',
+    'edit_category' => 'تعديل فئة',
+    'categories_list' => 'قايمة الفئات',
+    'save' => 'حفظ',
+    'cancel' => 'اغلاق',
+    'delete' => 'حذف',
+
+    'subcategories' => 'الفئات الفرعية',
+    'subcategory_added' => 'تم اضافة الفئة الفرعية بنجاح.',
+    'subcategory_deleted' => 'تم حذف الفئة الفرعية بنجاح.',
+    'subcategories_list_retrieved' => 'تم استرجاع قايمة الفئات الفرعية بنجاح.',
+    'image_required' => 'حقل الصورة مطلوب.',
+    'image_invalid' => 'يجب ان يكون الملف صورة.',
+    'image_mimes' => 'يجب ان تكون الصورة من نوع: jpeg, png, jpg, gif.',
+    'image_max' => 'يجب ان لا يتجاوز حجم الصورة 2 ميجابايت.',
+    'subcategory' => 'فئة فرعية',
+    'add_subcategory' => 'اضافة فئة فرعية',
+    'edit_subcategory' => 'تعديل فئة فرعية',
+    'subcategories_list' => 'قايمة الفئات الفرعية',
+    'save' => 'حفظ',
+    'cancel' => 'اغلاق',
+    'delete' => 'حذف',
+    'no_data' => 'لا يوجد بيانات',
+    'no_data_found' => 'لا يوجد بيانات متاحة.',
+    'category is required' => 'حقل الفئة مطلوب.',
+    'category_not_found' => 'لا يوجد فئة بهذا الرقم.',
+    'category_updated' => 'تم تحديث الفئة بنجاح.',
+    'category_deleted' => 'تم حذف الفئة بنجاح.',
+
+
+
+
 
 
     'add_category' => 'Add Category',
@@ -148,4 +189,5 @@ return [
     'Search by Category name' => 'ابحث بالاسم',
     'Add Categoey+' => 'اضافة تصنيف+',
     'Categories' => 'التصنيفات',
+    'LogOut' => 'تسجيل الخروج',
 ];

@@ -55,8 +55,10 @@
                             <div class="d-flex">
 
                                 <div class="flex-grow-1">
-                                    <span class="fw-semibold d-block">{{ Auth::user()->name }}</span>
-                                    <small class="text-muted">{{ Auth::user()->email }}</small>
+                                    @if ($user)
+                                        <span class="fw-semibold d-block">{{ $user->name }}</span>
+                                        <small class="text-muted">{{ $user->email }}</small>
+                                    @endif
                                 </div>
                             </div>
                         </a>
@@ -67,7 +69,7 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('admin.profile') }}">
                             <i class="bx bx-user me-2"></i>
-                            <span class="align-middle">My Profile</span>
+                            <span class="align-middle">{{ __('messages.My Profile') }}</span>
                         </a>
                     </li>
 
@@ -75,10 +77,13 @@
                         <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('admin.logout') }}">
-                            <i class="bx bx-power-off me-2"></i>
-                            <span class="align-middle">Log Out</span>
-                        </a>
+                        <form action="{{ route('admin.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item bg-transparent border-0">
+                                <i class="bx bx-power-off me-2"></i>
+                                {{ __('messages.LogOut') }}
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </li>

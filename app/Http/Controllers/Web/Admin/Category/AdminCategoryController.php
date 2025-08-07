@@ -40,17 +40,19 @@ class AdminCategoryController extends Controller
         return redirect()->route('categories.index')->with('success', 'Category created successfully.');;
     }
 
-    public function edit($id)
+    public function edit(Category $category)
     {
-        $category = Category::findOrFail($id);
-        return view('Admin.pages.categories.edit', compact('Category'));
+
+        return view('Admin.pages.categories.edit', compact('category'));
     }
 
-    public function update(UpdateCategoryRequest $request, $id)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $this->categoryService->update($id, $request->validated());
+        $this->categoryService->update($category, $request->validated());
         return redirect()->route('categories.index')->with('success', 'Category updated successfully.');;
     }
+
+
 
     public function destroy($id)
     {
