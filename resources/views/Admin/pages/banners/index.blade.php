@@ -1,5 +1,6 @@
 @extends('Admin.layout.app')
-
+@section('banner_active', 'active')
+@section('banner_open', 'open')
 @section('title', __('messages.banners'))
 
 @section('content')

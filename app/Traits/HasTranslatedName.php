@@ -83,4 +83,9 @@ trait HasTranslatedName
         $key = 'content_' . $locale;
         return $this->$key ?? $this->{'content_' . $fallback} ?? null;
     }
+
+    public function getTranslation(string $field, string $locale): ?string
+    {
+        return $this->{$field}[$locale] ?? null;
+    }
 }

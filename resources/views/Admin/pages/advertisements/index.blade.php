@@ -1,5 +1,6 @@
 @extends('Admin.layout.app')
-
+@section('advertisement_active', 'active')
+@section('advertisement_open', 'open')
 @section('title', __('messages.advertisements'))
 
 @section('content')

@@ -68,8 +68,21 @@ return [
     'description' =>  'Description',
     'image' =>  'Image',
     'actions' =>  'Actions',
-
-
+    'Countries' => 'Countries',
+    'categories' => 'Categories',
+    'Name' => 'Name',
+    'Actions' => 'Actions',
+    'Add Country+' => 'Add Country+',
+    'Add Country' => 'Add Country',
+    'Update Country' => 'Update Country',
+    'Back' => 'Back',
+    'Cities' => 'Cities',
+    'Country' => 'Country',
+    'Add City+' => 'Add City+',
+    'Search by City name' => 'Search by City name',
+    'Add City' => 'Add City',
+    'Select Country' => 'Select Country',
+    'Update City' => 'Update City',
 
     'name' => 'name',
     'image' => 'image',
