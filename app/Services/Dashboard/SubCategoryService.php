@@ -37,6 +37,11 @@ class SubCategoryService
         $subcategory->description = $data['description'];
 
         if (!empty($data['image'])) {
+
+            if ($subcategory->image) {
+            }
+
+
             $subcategory->image = $this->imageManger->uploadImage('subcategories', $data['image']);
         }
 
@@ -51,14 +56,6 @@ class SubCategoryService
         $this->imageManger->deleteImage($subcategory->image);
         return $subcategory->delete();
     }
-
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Retrieve all subcategories
-     *
-     * @return \Illuminate\Database\Eloquent\Collection<Subcategory>
-     */
-    /*******  d8752036-b3ec-4446-aa00-9be7dfd93666  *******/
     public function getSubCategories()
     {
         return Subcategory::all();

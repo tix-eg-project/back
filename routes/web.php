@@ -66,9 +66,9 @@ Route::group([
             Route::get('/', [AdminSubcategoryController::class, 'index'])->name('index');
             Route::get('/create', [AdminSubcategoryController::class, 'create'])->name('create');
             Route::post('/', [AdminSubcategoryController::class, 'store'])->name('store');
-            Route::get('/{category}/edit', [AdminSubcategoryController::class, 'edit'])->name('edit');
-            Route::put('/{category}', [AdminSubcategoryController::class, 'update'])->name('update');
-            Route::delete('/{category}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
+            Route::get('/{subcategory}/edit', [AdminSubcategoryController::class, 'edit'])->name('edit');
+            Route::put('/{subcategory}', [AdminSubcategoryController::class, 'update'])->name('update');
+            Route::delete('/{subcategory}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
         });
     });
 

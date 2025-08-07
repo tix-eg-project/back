@@ -10,10 +10,10 @@ use App\Models\Subcategory;
 use App\Services\Dashboard\SubCategoryService;
 use Illuminate\Http\Request;
 
-
 class AdminSubcategoryController extends Controller
 {
     protected $subCategoryService;
+
     public function __construct(SubCategoryService $subCategoryService)
     {
         $this->subCategoryService = $subCategoryService;
@@ -23,16 +23,14 @@ class AdminSubcategoryController extends Controller
     {
         $query = Subcategory::latest();
 
-
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
-        };
+        }
 
         $subcategories = $query->paginate(10);
         $categories = Category::all();
         return view('Admin.pages.subcategories.index', compact('subcategories', 'categories'));
     }
-
 
     public function create()
     {
@@ -42,7 +40,6 @@ class AdminSubcategoryController extends Controller
 
     public function store(StoreSubcategoryRequest $request)
     {
-
         $this->subCategoryService->store($request->validated());
         return redirect()->route('subcategories.index')->with('success', 'Subcategory created successfully.');
     }
@@ -59,7 +56,6 @@ class AdminSubcategoryController extends Controller
         return view('Admin.pages.subcategories.edit', compact('subcategory', 'categories'));
     }
 
-
     public function update(UpdateSubcategoryRequest $request, Subcategory $subcategory)
     {
         $this->subCategoryService->update($subcategory, data: $request->validated());
@@ -69,6 +65,6 @@ class AdminSubcategoryController extends Controller
     public function destroy(Subcategory $subcategory)
     {
         $this->subCategoryService->delete($subcategory);
-        return redirect()->route('subcategories.index');
+        return redirect()->route('subcategories.index')->with('success', 'Subcategory deleted successfully.');
     }
 }

@@ -22,8 +22,10 @@ class SubcategoryController extends Controller
             ->get()
             ->map(fn($subcategory) => [
                 'id'          => $subcategory->id,
-                'category_id' => $subcategory->category_id,
+
                 'name'       => $subcategory->name,
+                'description' => $subcategory->description,
+                'category_id' => $subcategory->category_id,
                 'image'       => asset($subcategory->image),
             ]);
 
