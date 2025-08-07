@@ -24,25 +24,15 @@ trait HasTranslatedName
 
     /**
      * Accessor for the 'description' attribute.
-     * Supports both JSON array or separate description_ar/description_en.
+     * Supports JSON stored descriptions similar to name attribute.
      */
     public function getDescriptionAttribute($value)
     {
-        $locale = App::getLocale();
-        $fallback = config('app.fallback_locale');
+        $locale = app()->getLocale(); // الحصول على اللغة الحالية
+        $decodedValue = json_decode($value, true); // فك تشفير الـ JSON إذا كان الحقل مخزنًا كـ JSON
 
-        if (is_array($value)) {
-            return $value[$locale]
-                ?? $value[$fallback]
-                ?? null;
-        }
-
-        $key = 'description_' . $locale;
-        if (isset($this->$key)) {
-            return $this->$key;
-        }
-
-        return $this->description_ar ?? null;
+        // التحقق إذا كانت القيمة عبارة عن مصفوفة (أي JSON)
+        return is_array($decodedValue) ? $decodedValue[$locale] ?? $decodedValue['en'] : $value;
     }
     public function getTitleAttribute()
     {

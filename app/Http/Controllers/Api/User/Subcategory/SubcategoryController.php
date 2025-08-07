@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api\User\Category;
+namespace App\Http\Controllers\Api\User\Subcategory;
 
 use App\Helpers\ApiResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\JsonResponse;
 
-class CategoryController extends Controller
+class SubcategoryController extends Controller
 {
     /**
      * GET /api/banners
@@ -17,17 +18,18 @@ class CategoryController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categories = Category::latest()
+        $subcategories = Subcategory::latest()
             ->get()
-            ->map(fn($category) => [
-                'id'          => $category->id,
-                'name'       => $category->name,
-                //'image'       => asset($category->image),
+            ->map(fn($subcategory) => [
+                'id'          => $subcategory->id,
+                'category_id' => $subcategory->category_id,
+                'name'       => $subcategory->name,
+                'image'       => asset($subcategory->image),
             ]);
 
         return ApiResponseHelper::success(
             __('messages.category_list_retrieved'),
-            $categories
+            $subcategories
         );
     }
 }

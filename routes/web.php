@@ -3,6 +3,7 @@
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
+use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,14 @@ Route::group([
             Route::get('/{category}/edit', [AdminCategoryController::class, 'edit'])->name('edit');
             Route::put('/{category}', [AdminCategoryController::class, 'update'])->name('update');
             Route::delete('/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('subcategories')->name('subcategories.')->group(function () {
+            Route::get('/', [AdminSubcategoryController::class, 'index'])->name('index');
+            Route::get('/create', [AdminSubcategoryController::class, 'create'])->name('create');
+            Route::post('/', [AdminSubcategoryController::class, 'store'])->name('store');
+            Route::get('/{category}/edit', [AdminSubcategoryController::class, 'edit'])->name('edit');
+            Route::put('/{category}', [AdminSubcategoryController::class, 'update'])->name('update');
+            Route::delete('/{category}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
         });
     });
 
