@@ -1,5 +1,6 @@
 @extends('Admin.layout.app')
-
+@section('category_active', 'active')
+@section('category_open', 'open')
 @section('title', __('messages.categories'))
 
 @section('content')

@@ -43,7 +43,6 @@ class AdminCategoryController extends Controller
     {
 
         $this->categoryService->store($request->validated());
-
         return redirect()->route('categories.index')->with('success', 'Category created successfully.');;
     }
 

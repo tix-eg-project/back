@@ -20,6 +20,8 @@ class LoginController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
         }
+        dd($credentials, Auth::guard('admin')->attempt($credentials), Auth::guard('admin')->user());
+
         return redirect()->route('admin.login')
             ->withErrors(['Error' => 'Invalid login data'])
             ->withInput(input: $request->only('email'));
@@ -28,7 +30,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('admin.login');

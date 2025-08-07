@@ -3,11 +3,7 @@
         <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
             <span class="app-brand-logo demo">
                 <!-- Logo here -->
-                <svg
-                    width="25"
-                    viewBox="0 0 25 42"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
+                <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <defs>
                         <path d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 ... "></path>
@@ -36,7 +32,7 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div>{{ __('messages.dashboard') }}</div>
@@ -44,24 +40,23 @@
         </li>
 
         <!-- Banner Link -->
-        <li class="menu-item">
+        <li class="menu-item @yield('banner_active')">
             <a href="{{ route('banners.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-image"></i>
-
+                <i class="menu-icon tf-icons bx bx-carousel"></i>
                 <div>{{ __('messages.banners') }}</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="{{ route('advertisements.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-image"></i>
 
+        <li class="menu-item @yield('advertisement_active')">
+            <a href="{{ route('advertisements.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bullseye"></i>
                 <div>{{ __('messages.advertisements') }}</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="{{ route('categories.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-image"></i>
 
+        <li class="menu-item @yield('category_active')">
+            <a href="{{ route('categories.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
                 <div>{{ __('messages.categories') }}</div>
             </a>
         </li>
@@ -73,23 +68,37 @@
             </a>
         </li>
 
+        <li class="menu-item @yield('country_active')">
+            <a href="{{ route('country.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-globe"></i>
+                <div>{{ __('messages.Countries') }}</div>
+            </a>
+        </li>
+
+        <li class="menu-item @yield('city_active')">
+            <a href="{{ route('cities.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-buildings"></i>
+                <div>{{ __('messages.Cities') }}</div>
+            </a>
+        </li>
+
+
 
 
         <!-- Add other menu items similarly -->
         @php
-        $current = request()->route()->getName();
-        $items = [
-
-        ];
+            $current = request()->route()->getName();
+            $items = [];
         @endphp
 
-        @foreach($items as $item)
-        <li class="menu-item">
-            <a href="{{ route($item['route']) }}" class="{{ $current === $item['route'] ? 'active text-primary fw-bold' : '' }} menu-link">
-                <i class="menu-icon tf-icons {{ $item['icon'] }}"></i>
-                <div>{{ $item['label'] }}</div>
-            </a>
-        </li>
+        @foreach ($items as $item)
+            <li class="menu-item">
+                <a href="{{ route($item['route']) }}"
+                    class="{{ $current === $item['route'] ? 'active text-primary fw-bold' : '' }} menu-link">
+                    <i class="menu-icon tf-icons {{ $item['icon'] }}"></i>
+                    <div>{{ $item['label'] }}</div>
+                </a>
+            </li>
         @endforeach
     </ul>
 </aside>

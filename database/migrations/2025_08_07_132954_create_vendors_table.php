@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TypeBusiness;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,10 +23,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('address');
             $table->string('Postal_code');
-            
-            $table->
-            
-
+            $table->string('vodafone-cash');
+            $table->string('instapay');
+            $table->tinyInteger('Type_business')->default(TypeBusiness::person);
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->timestamps();
         });
     }
