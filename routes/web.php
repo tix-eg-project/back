@@ -95,6 +95,14 @@ Route::group([
             Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
             Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
         });
+        Route::prefix('subcategories')->name('subcategories.')->group(function () {
+            Route::get('/', [AdminSubcategoryController::class, 'index'])->name('index');
+            Route::get('/create', [AdminSubcategoryController::class, 'create'])->name('create');
+            Route::post('/', [AdminSubcategoryController::class, 'store'])->name('store');
+            Route::get('/{subcategory}/edit', [AdminSubcategoryController::class, 'edit'])->name('edit');
+            Route::put('/{subcategory}', [AdminSubcategoryController::class, 'update'])->name('update');
+            Route::delete('/{subcategory}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
+        });
 
         Route::prefix('users')->group(function () {
             Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
