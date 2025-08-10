@@ -91,6 +91,7 @@ return [
     'details' => 'تفاصيل',
 
     'banners' => 'البنرات',
+    'banners_list_retrieved' => 'تم استرجاع قائمة البنرات بنجاح.',
 
     'description' => 'الوصف',
     'actions' => 'الإجراءات',
