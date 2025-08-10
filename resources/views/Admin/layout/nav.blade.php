@@ -16,7 +16,7 @@
                     class="dropdown-toggle position-relative d-flex align-items-center notificationsIcon"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-bell fs-5"></i>
-                    @if (Auth::user()->unreadNotifications()->count())
+                    @if (Auth::guard('admin')->user()->unreadNotifications()->count())
                         <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle"
                             id="notificationsIconCounter">
                             {{ Auth::user()->unreadNotifications()->count() }}
@@ -29,7 +29,7 @@
                         <strong>{{ __('Notifications') }}</strong>
                     </div>
                     <div class="list-group" id="notificationsModal">
-                        @forelse(auth()->user()->notifications()->orderBy('created_at', 'desc')->take(5)->get() as $notification)
+                        @forelse(Auth::guard('admin')->user()->notifications()->orderBy('created_at', 'desc')->take(5)->get() as $notification)
                             @php
                                 $url = $notification->data['url'] ?? '#';
                                 $message = $notification->data['message'] ?? 'رسالة غير متوفرة';

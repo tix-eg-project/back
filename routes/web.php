@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Admin\Country\CountryController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\Web\Vendor\VendoreController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -87,6 +88,19 @@ Route::group([
             Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
         });
 
+        Route::prefix('vendors')->group(function () {
+            Route::get('/', [VendoreController::class, 'index'])->name('vendore.index');
+            Route::get('/create', [VendoreController::class, 'create'])->name('vendore.create');
+            Route::post('/', [VendoreController::class, 'store'])->name('vendore.store');
+            Route::get('/{id}/show', [VendoreController::class, 'show'])->name('vendore.show');
+            Route::get('/{id}/edit', [VendoreController::class, 'edit'])->name('vendore.edit');
+            Route::put('/{id}', [VendoreController::class, 'update'])->name('vendore.update');
+            Route::delete('/{id}', [VendoreController::class, 'destroy'])->name('vendore.destroy');
+
+            Route::post('/vendors/{vendor}/update-status', [VendoreController::class, 'updateStatus'])
+                ->name('vendors.updateStatus');
+        });
+
         Route::prefix('cities')->group(function () {
             Route::get('/', [CityController::class, 'index'])->name('cities.index');
             Route::get('/create', [CityController::class, 'create'])->name('cities.create');
@@ -105,7 +119,7 @@ Route::group([
         });
 
         Route::prefix('users')->group(function () {
-            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
+            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profiles');
             Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
         });
         // Notifications

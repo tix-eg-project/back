@@ -90,6 +90,24 @@ return [
     'Created_at' => 'Created_at',
     'Action' => 'Action',
     'Notifications' => 'Notifications',
+    'Vendors' => 'Vendors',
+    'Image' => 'Image',
+    'Company Name' => 'Company Name',
+    'Description' => 'Description',
+    'Address' => 'Address',
+    'Postal Code' => 'Postal Code',
+    'Vodafone Cash' => 'Vodafone Cash',
+    'InstaPay' => 'InstaPay',
+    'Type of Business' => 'Type of Business',
+    'Category' => 'Category',
+    'Country' => 'Country',
+    'City' => 'City',
+    'Status' => 'Status',
+    'Active' => 'Active',
+    'Inactive' => 'Inactive',
+    'No image available' => 'No image available',
+    'Vendor' => 'Vendor',
+    'Number Of Vendor' => 'Number Of Vendor',
 
     'name' => 'name',
     'image' => 'image',
@@ -178,7 +196,7 @@ return [
     'image_mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
     'image_max' => 'The image may not be greater than 2MB.',
     'Registration completed. Awaiting admin review. You will receive a message on your registered email address.' => 'Registration completed. Awaiting admin review. You will receive a message on your registered email address.',
-    
+
 
 
 

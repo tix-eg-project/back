@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -14,7 +15,8 @@ class AdminController extends Controller
     {
         $citycount = City::count();
         $countrycount = Country::count();
-        return view('Admin.dashboard', compact('citycount', 'countrycount'));
+        $vendorcount = Vendor::count();
+        return view('Admin.dashboard', compact('vendorcount','citycount', 'countrycount'));
     }
 
     // دالة لعرض صفحة الـ Tables

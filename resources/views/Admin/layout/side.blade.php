@@ -82,6 +82,14 @@
             </a>
         </li>
 
+        <li class="menu-item @yield('vendors_active')">
+            <a href="{{ route('vendore.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-briefcase"></i>
+                <div>{{ __('messages.Vendors') }}</div>
+            </a>
+        </li>
+
+
         <li class="menu-item @yield('notification_active')">
             <a href="{{ route('Admin.notifications') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-bell"></i>
