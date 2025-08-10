@@ -86,6 +86,10 @@ return [
     'Number Of City' => 'Number Of City',
     'Show' => 'Show',
     'Number Of Country' => 'Number Of Country',
+    'Message' => 'Message',
+    'Created_at' => 'Created_at',
+    'Action' => 'Action',
+    'Notifications' => 'Notifications',
 
     'name' => 'name',
     'image' => 'image',

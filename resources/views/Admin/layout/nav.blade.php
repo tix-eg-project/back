@@ -9,6 +9,76 @@
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
         <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+            {{-- الإشعارات --}}
+            <li class="nav-item dropdown me-4">
+                <a href="javascript:;"
+                    class="dropdown-toggle position-relative d-flex align-items-center notificationsIcon"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-bell fs-5"></i>
+                    @if (Auth::user()->unreadNotifications()->count())
+                        <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle"
+                            id="notificationsIconCounter">
+                            {{ Auth::user()->unreadNotifications()->count() }}
+                        </span>
+                    @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-{{ in_array(App::getLocale(), ['en', 'fr']) ? 'end' : 'start' }} shadow-lg"
+                    style="width: 380px; max-height: 450px; overflow-y: auto; border-radius: 8px;">
+                    <div class="dropdown-header bg-primary text-white text-center py-2">
+                        <strong>{{ __('Notifications') }}</strong>
+                    </div>
+                    <div class="list-group" id="notificationsModal">
+                        @forelse(auth()->user()->notifications()->orderBy('created_at', 'desc')->take(5)->get() as $notification)
+                            @php
+                                $url = $notification->data['url'] ?? '#';
+                                $message = $notification->data['message'] ?? 'رسالة غير متوفرة';
+                            @endphp
+
+                            <a href="{{ $url . '?notification_id=' . $notification->id }}"
+                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center mark-as-read"
+                                data-id="{{ $notification->id }}">
+
+                                <div class="w-100 me-2">
+                                    <div class="d-flex justify-content-between">
+                                        <p
+                                            class="mb-1 {{ !$notification->read_at ? 'text-dark fw-bold' : 'text-muted' }}">
+                                            {{ $message }}
+                                        </p>
+                                        <small class="text-muted">
+                                            {{ $notification->created_at->diffForHumans() }}
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <i class="fas fa-user-circle text-primary fs-4"></i>
+                            </a>
+                        @empty
+                            <div class="text-center text-muted py-3">
+                                {{ __('No new notifications') }}
+                            </div>
+                        @endforelse
+
+                    </div>
+                    {{-- @if ($notifications->count()) --}}
+                    @php
+                        $notificationsCount = auth()->user()->notifications()->count();
+                    @endphp
+
+                    @if ($notificationsCount)
+                        <div class="text-center p-2 border-top">
+                            <a href="{{ route('Admin.notifications.markAllRead') }}"
+                                class="btn btn-sm btn-outline-primary me-2">{{ __('Read All') }}</a>
+                            <a href="{{ route('Admin.notifications') }}"
+                                class="btn btn-sm btn-primary">{{ __('Index All') }}</a>
+                        </div>
+                    @endif
+                    {{-- @endif --}}
+                </div>
+            </li>
+
+
+
             <!-- اللغة -->
             <li class="dropdown nav-item lh-1 me-3">
                 <button class="dropdown-toggle bg-transparent border-0" data-bs-toggle="dropdown" aria-expanded="false"
@@ -18,9 +88,12 @@
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('en') }}">English</a>
                     </li>
-                    <li><a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('ar') }}">Arabic</a></li>
+                    <li><a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('ar') }}">Arabic</a>
+                    </li>
                 </ul>
             </li>
+
+
 
             <!-- User -->
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -37,8 +110,8 @@
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         @if ($user && $user->image)
-                            <img src="{{ asset($user->image) }}" alt="User Avatar" class="w-px-40 h-auto rounded-circle"
-                                style="object-fit: cover;" />
+                            <img src="{{ asset($user->image) }}" alt="User Avatar"
+                                class="w-px-40 h-auto rounded-circle" style="object-fit: cover;" />
                         @else
                             <img src="{{ asset('assets/img/avatars/1.png') }}" alt="Default Avatar"
                                 class="w-px-40 h-auto rounded-circle" style="object-fit: cover;" />

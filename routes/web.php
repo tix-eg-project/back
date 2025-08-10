@@ -10,6 +10,7 @@ use App\Http\Controllers\Web\Admin\City\CityController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -73,30 +74,39 @@ Route::group([
             Route::put('/{subcategory}', [AdminSubcategoryController::class, 'update'])->name('update');
             Route::delete('/{subcategory}', [AdminSubcategoryController::class, 'destroy'])->name('destroy');
         });
-    });
 
-    // يمكنك إضافة المزيد من الصفحات هنا حسب الحاجة
 
-    Route::prefix('countries')->group(function () {
-        Route::get('/', [CountryController::class, 'index'])->name('country.index');
-        Route::get('/create', [CountryController::class, 'create'])->name('country.create');
-        Route::post('/', [CountryController::class, 'store'])->name('country.store');
-        Route::get('/{id}/edit', [CountryController::class, 'edit'])->name('country.edit');
-        Route::put('/{id}', [CountryController::class, 'update'])->name('country.update');
-        Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
-    });
+        // يمكنك إضافة المزيد من الصفحات هنا حسب الحاجة
 
-    Route::prefix('cities')->group(function () {
-        Route::get('/', [CityController::class, 'index'])->name('cities.index');
-        Route::get('/create', [CityController::class, 'create'])->name('cities.create');
-        Route::post('/', [CityController::class, 'store'])->name('cities.store');
-        Route::get('/{id}/edit', [CityController::class, 'edit'])->name('cities.edit');
-        Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
-        Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
-    });
+        Route::prefix('countries')->group(function () {
+            Route::get('/', [CountryController::class, 'index'])->name('country.index');
+            Route::get('/create', [CountryController::class, 'create'])->name('country.create');
+            Route::post('/', [CountryController::class, 'store'])->name('country.store');
+            Route::get('/{id}/edit', [CountryController::class, 'edit'])->name('country.edit');
+            Route::put('/{id}', [CountryController::class, 'update'])->name('country.update');
+            Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
+        });
 
-    Route::prefix('users')->group(function () {
-        Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
-        Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
+        Route::prefix('cities')->group(function () {
+            Route::get('/', [CityController::class, 'index'])->name('cities.index');
+            Route::get('/create', [CityController::class, 'create'])->name('cities.create');
+            Route::post('/', [CityController::class, 'store'])->name('cities.store');
+            Route::get('/{id}/edit', [CityController::class, 'edit'])->name('cities.edit');
+            Route::put('/{id}', [CityController::class, 'update'])->name('cities.update');
+            Route::delete('/{id}', [CityController::class, 'destroy'])->name('cities.destroy');
+        });
+
+        Route::prefix('users')->group(function () {
+            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
+            Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
+        });
+        // Notifications
+        Route::prefix('notifications')->middleware(['auth', 'check.notification'])->group(function () {
+            Route::post('/mark-as-read', [NotificationController::class, 'markAsRead'])->name('Admin.notifications.markAsRead');
+            Route::get('/mark-all-read', [NotificationController::class, 'ReadAll'])->name('Admin.notifications.markAllRead');
+            Route::get('/', [NotificationController::class, 'getNotifications'])->name('Admin.notifications');
+            Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('Admin.notifications.delete');
+            Route::delete('/', [NotificationController::class, 'delete'])->name('Admin.notifications.deleteAll');
+        });
     });
 });

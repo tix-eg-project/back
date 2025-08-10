@@ -17,6 +17,10 @@ class Admin extends Authenticatable
         'image',
     ];
 
+    protected $casts = [
+        'data' => 'array',
+    ];
+
     protected $hidden = [
         'password',
         'remember_token',

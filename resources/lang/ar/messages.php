@@ -190,4 +190,8 @@ return [
     'Add Categoey+' => 'اضافة تصنيف+',
     'Categories' => 'التصنيفات',
     'LogOut' => 'تسجيل الخروج',
+    'Message' => 'الرسالة',
+    'Created_at' => 'تاريخ الاضافة',
+    'Action' => 'العملية',
+    'Notifications' => 'الاشعارات',
 ];
