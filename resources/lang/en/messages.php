@@ -108,6 +108,10 @@ return [
     'No image available' => 'No image available',
     'Vendor' => 'Vendor',
     'Number Of Vendor' => 'Number Of Vendor',
+    'Number Of Users' => 'Number Of Users',
+    'Users' => 'Users',
+    'Add User+' => 'Add User+',
+    'Nothing!' => 'Nothing!',
 
     'name' => 'name',
     'image' => 'image',

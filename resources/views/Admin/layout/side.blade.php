@@ -82,6 +82,14 @@
             </a>
         </li>
 
+        <li class="menu-item @yield('users_active')">
+            <a href="{{ route('admin.pages.users.index') }}" class="menu-link">
+                <i class=" menu-icon tf-icons bi bi-people-fill"></i>
+                <div>{{ __('messages.Users') }}</div>
+            </a>
+        </li>
+
+
         <li class="menu-item @yield('vendors_active')">
             <a href="{{ route('vendore.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-briefcase"></i>

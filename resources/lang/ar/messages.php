@@ -240,4 +240,8 @@ return [
     'No image available' => 'لا يوجد صورة متاحة',
     'Vendor' => 'التاجر',
     'Number Of Vendor' => 'عدد التجار',
+    'Number Of Users' => 'عدد المستخدمين',
+    'Users' => 'المستخدمين',
+    'Add User+' => 'اضافة مستخدم+',
+    'Nothing!' => 'لا يوجد',
 ];

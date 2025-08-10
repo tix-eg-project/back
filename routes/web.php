@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\Web\AdminProfileController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
 use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\Admin\City\CityController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
+use App\Http\Controllers\Web\Admin\User\UserController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\NotificationController;
@@ -130,5 +130,14 @@ Route::group([
             Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('Admin.notifications.delete');
             Route::delete('/', [NotificationController::class, 'delete'])->name('Admin.notifications.deleteAll');
         });
+
+          Route::prefix('users')->group(function () {
+                Route::get('index', [UserController::class, 'index'])->name('admin.pages.users.index');
+                Route::get('create', [UserController::class, 'create'])->name('admin.pages.users.create');
+                Route::post('store', [UserController::class, 'store'])->name('admin.pages.users.store');
+                Route::get('edit/{user}', [UserController::class, 'edit'])->name('admin.pages.users.edit');
+                Route::put('update/{user}', [UserController::class, 'update'])->name('admin.pages.users.update');
+                Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('admin.pages.users.delete');
+            });
     });
 });
