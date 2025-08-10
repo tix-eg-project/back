@@ -32,18 +32,17 @@ class VendoreService
 
     public function updateStatus($status, Vendor $vendor)
     {
-        $vendor->update([
-            'status' => $status
-        ]);
+        $vendor->update(['status' => $status]);
 
         $statusMessage = $status == 1
             ? 'تمت الموافقة على الاشتراك من قبل الإدارة'
             : 'تم رفض الاشتراك من قبل الإدارة';
 
-        $user = $vendor->user;
-        if ($user) {
-            $user->notify(new DashboardNotification($statusMessage));
-        }
+        // الرابط الذي يوجه التاجر إلى الداشبورد (غيرلها حسب رابط الداشبورد عندك)
+        $dashboardUrl = route('vendore.index');  // مثال
+
+        // إرسال الإشعار مع الرابط
+        $vendor->notify(new DashboardNotification($statusMessage, $dashboardUrl));
 
         return true;
     }

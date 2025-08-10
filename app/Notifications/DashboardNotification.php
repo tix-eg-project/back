@@ -13,10 +13,12 @@ class DashboardNotification extends Notification
 {
     // لا تستخدم ShouldQueue و Queueable مؤقتًا
     protected $message;
+    protected $url;
 
-    public function __construct($message)
+    public function __construct($message, $url = null)
     {
         $this->message = $message;
+        $this->url = $url;  // رابط لوحة تحكم التاجر
     }
 
     public function via($notifiable)
@@ -28,14 +30,21 @@ class DashboardNotification extends Notification
     {
         return [
             'message' => $this->message,
+            'url' => $this->url,  // يمكن عرض الرابط مع الإشعار في الواجهة
         ];
     }
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('إشعار جديد')
+        $mail = (new MailMessage)
+            ->subject('إشعار جديد من النظام')
             ->greeting('مرحبًا ' . $notifiable->name)
             ->line($this->message);
+
+        if ($this->url) {
+            $mail->action('اذهب إلى لوحة التحكم', $this->url);
+        }
+
+        return $mail->line('شكرًا لاستخدامك منصتنا!');
     }
 }
