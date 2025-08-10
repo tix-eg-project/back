@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\Vendor as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Vendor extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
 
     protected $fillable = [
         'company_name',
@@ -28,6 +28,7 @@ class Vendor extends Authenticatable
         'city_id',
         'status',
     ];
+
     protected $casts = [
         'data' => 'array',
     ];

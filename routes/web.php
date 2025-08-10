@@ -1,19 +1,24 @@
 <?php
 
-use App\Http\Controllers\Web\AdminProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
-use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\Admin\City\CityController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
+use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\AdminController;
+use App\Http\Controllers\Web\AdminProfileController;
 use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\Vendor\LoginVendorController;
+use App\Http\Controllers\Web\Auth\VendorRegisterController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\Web\Vendor\VendorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
 
 
 
@@ -116,5 +121,30 @@ Route::group([
             Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('Admin.notifications.delete');
             Route::delete('/', [NotificationController::class, 'delete'])->name('Admin.notifications.deleteAll');
         });
+    });
+
+
+
+    Route::get('/vendor', function () {
+        if (Auth::guard('vendor')->check()) {
+            return redirect()->route('vendor.dashboard');
+        }
+
+        return redirect()->route('vendor.login');
+    });
+
+    Route::get('/vendor/dashboard', [VendorController::class, 'dashboard'])->name('vendor.dashboard')->middleware('auth:vendor');
+
+    // بـ:
+    Route::get('/vendor/login', [LoginVendorController::class, 'showLoginForm'])->name('vendor.login');
+    Route::post('/vendor/login', [LoginVendorController::class, 'login']);
+    Route::post('vendor/logout', [LoginVendorController::class, 'logout'])->name('vendor.logout');
+
+
+    Route::middleware(['auth:vendor'])->group(function () {
+        Route::get('/tables', [AdminController::class, 'tables'])->name('vendor.tables');
+        Route::get('/billing', [AdminController::class, 'billing'])->name('vendor.billing');
+        Route::get('/virtual-reality', [AdminController::class, 'virtualReality'])->name('vendor.virtual-reality');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('vendor.profile');
     });
 });

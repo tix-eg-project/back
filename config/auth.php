@@ -23,15 +23,16 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+        'vendor' => [
+            'driver' => 'session',
+            'provider' => 'vendors',
+        ],
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'users',
         ],
 
-        'vendor' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+
 
     ],
 

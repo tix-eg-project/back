@@ -28,7 +28,7 @@
                         <div style="height: 450px;" class="row justify-content-center">
                             <div class="col-md-6 ps-0 mt-5">
                                 <div class="form-left h-100 py-5 px-5">
-                                    <form method="POST" action="{{ route(' vendor.login') }}" class="row g-4">
+                                    <form method="POST" action="{{ route('vendor.login') }}" class="row g-4">
                                         @csrf
 
                                         <div class="col-12">
