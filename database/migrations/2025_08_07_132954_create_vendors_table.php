@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('Postal_code');
             $table->string('vodafone-cash');
             $table->string('instapay');
+            $table->tinyInteger('status')->default('0');
             $table->tinyInteger('Type_business')->default(TypeBusiness::person);
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');

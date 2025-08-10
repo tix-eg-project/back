@@ -173,5 +173,7 @@ return [
     'category_not_found' => 'لا يوجد فئة بهذا الرقم.',
     'category_updated' => 'تم تحديث الفئة بنجاح.',
     'category_deleted' => 'تم حذف الفئة بنجاح.',
+    'Registration completed. Awaiting admin review. You will receive a message on your registered email address.' => 'تم التسجيل بنجاح. يرجى المراجعة من قبل المسئول. سوف تتلقى رسالة على بريدك الالكتروني.',
+
 
 ];

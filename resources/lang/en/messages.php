@@ -161,6 +161,8 @@ return [
     'image_invalid' => 'The uploaded file must be an image.',
     'image_mimes' => 'The image must be a file of type: jpeg, png, jpg, gif.',
     'image_max' => 'The image may not be greater than 2MB.',
+    'Registration completed. Awaiting admin review. You will receive a message on your registered email address.' => 'Registration completed. Awaiting admin review. You will receive a message on your registered email address.',
+    
 
 
 

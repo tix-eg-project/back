@@ -24,7 +24,7 @@ class VendorService
     public function store(array $data): Vendor
     {
         // Handling the image upload
-        $data['image'] = $this->imageManger->uploadImage('vendors', $data['image']);
+        // $data['image'] = $this->imageManger->uploadImage('vendors', $data['image']);
 
         // Hashing the password before storing it
         $data['password'] = Hash::make($data['password']);
@@ -37,7 +37,7 @@ class VendorService
             'email'         => $data['email'],
             'phone'         => $data['phone'],
             'password'      => $data['password'],
-            'image'         => $data['image'],
+            //  'image'         => $data['image'],
             'address'       => $data['address'],
             'Postal_code'   => $data['Postal_code'],
             'vodafone-cash' => $data['vodafone-cash'],

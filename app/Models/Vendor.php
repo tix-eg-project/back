@@ -23,7 +23,8 @@ class Vendor extends Model
         'Type_business',
         'category_id',
         'country_id',
-        'city_id'
+        'city_id',
+        'status',
     ];
 
     protected $guarded = [];
