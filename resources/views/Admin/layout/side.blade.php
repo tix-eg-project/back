@@ -82,6 +82,21 @@
             </a>
         </li>
 
+        <li class="menu-item @yield('notification_active')">
+            <a href="{{ route('Admin.notifications') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div>{{ __('messages.Notifications') }}</div>
+            </a>
+        </li>
+
+
+        <li class="menu-item" @yield('myProfile_active')>
+            <a href="{{ route('admin.profile') }}" class="menu-link">
+                <i class="menu-icon tf-icons fa-solid fa-user"></i>
+                <div data-i18n="Basic">{{ __('messages.My Profile') }}</div>
+            </a>
+        </li>
+
 
 
 

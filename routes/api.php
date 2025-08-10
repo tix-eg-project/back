@@ -26,8 +26,6 @@ Route::prefix('auth/user')->group(function () {
 
 Route::middleware('locale')  // الآن بدون auth:sanctum
     ->group(function () {
-
-
         Route::get('banners',                       [BannerController::class, 'index']);
         Route::get('advertisements',                       [AdvertisementController::class, 'index']);
         Route::get('categories',                       [CategoryController::class, 'index']);
@@ -38,5 +36,5 @@ Route::middleware('locale')  // الآن بدون auth:sanctum
 
 
 
-        Route::post('vendor/register',                  [RegisterVendorController::class, 'register']);
+        Route::post('vendor/register',[RegisterVendorController::class, 'register']);
     });

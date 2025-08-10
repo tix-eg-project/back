@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Vendor as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Vendor extends Model
+class Vendor extends Authenticatable
 {
-    protected $table = 'vendors';
+    use Notifiable;
 
     protected $fillable = [
         'company_name',
@@ -26,6 +28,14 @@ class Vendor extends Model
         'city_id',
         'status',
     ];
+    protected $casts = [
+        'data' => 'array',
+    ];
 
-    protected $guarded = [];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $guard_name = 'vendor';
 }

@@ -23,10 +23,7 @@ class VendorService
      */
     public function store(array $data): Vendor
     {
-        // Handling the image upload
-        // $data['image'] = $this->imageManger->uploadImage('vendors', $data['image']);
 
-        // Hashing the password before storing it
         $data['password'] = Hash::make($data['password']);
 
         // Create the vendor record

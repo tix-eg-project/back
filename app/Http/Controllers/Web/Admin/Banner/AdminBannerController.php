@@ -23,7 +23,18 @@ class AdminBannerController extends Controller
 
     public function index()
     {
-        $banners = Banner::latest()->paginate(10);
+        $search = request('search');
+        $query = Banner::query()->latest();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title->ar', 'like', '%' . $search . '%')
+                    ->orWhere('title->en', 'like', '%' . $search . '%');
+            });
+        }
+
+        $banners = $query->paginate(10);
+
         return View::make('Admin.pages.banners.index', compact('banners'));
     }
 
