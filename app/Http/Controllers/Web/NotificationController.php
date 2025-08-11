@@ -11,14 +11,18 @@ class NotificationController extends Controller
 
     public function getNotifications()
     {
-        $user = Auth::user();
-        if (!$user) {
+        $admin = Auth::guard('admin')->user();
+        if (!$admin) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
-        $notifications = $user->notifications()->orderBy('created_at', 'desc')->paginate(10);
-        $newCount      = $user->unreadNotifications()->count();
+        // تعليم كل الإشعارات كـ "مقروءة"
+        $admin->unreadNotifications->markAsRead();
+        $notifications = $admin->notifications()->orderBy('created_at', 'desc')->paginate(10);
+        $newCount      = $admin->unreadNotifications()->count();
         return view('Admin.pages.notifications.index', compact('notifications', 'newCount'));
     }
+
+
     public function markAsRead(Request $request)
     {
         $notification = auth()->user()->notifications()->find($request->id);

@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api\Auth\Vendor;
 use App\Helpers\ApiResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Auth\Vendor\RegisterVendorRequest;
-use App\Models\Vendor;
 use App\Services\Dashboard\Vendor\VendorService;
-use Illuminate\Http\Request;
 
 class RegisterVendorController extends Controller
 {
@@ -19,8 +17,6 @@ class RegisterVendorController extends Controller
     public function register(RegisterVendorRequest $request)
     {
         $vendor = $this->vendorService->store($request->all());
-
-        return ApiResponseHelper::success('messages.Registration completed. Awaiting admin review. You will receive a message on your registered email address.
- ');
+        return ApiResponseHelper::success('messages.Registration completed. Awaiting admin review. You will receive a message on your registered email address.');
     }
 }

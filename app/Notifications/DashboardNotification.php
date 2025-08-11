@@ -6,66 +6,45 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Helpers\SendNotificationHelper;
-use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 
 
-class DashboardNotification extends Notification implements ShouldQueue
+class DashboardNotification extends Notification
 {
-    use Queueable;
-
-    protected $user_id;
+    // لا تستخدم ShouldQueue و Queueable مؤقتًا
     protected $message;
+    protected $url;
 
-    public function __construct($user_id, $message)
+    public function __construct($message, $url = null)
     {
-        $this->user_id = $user_id;
         $this->message = $message;
+        $this->url = $url;  // رابط لوحة تحكم التاجر
     }
 
-    public function via($notifiable): array
+    public function via($notifiable)
     {
         return ['database', 'mail'];
     }
 
-    public function toDatabase($notifiable): array
+    public function toDatabase($notifiable)
     {
-        $user = User::find($this->user_id);
-
-        if ($user && $user->fcm_token) {
-            $data = [
-                'title_ar' => 'إشعار جديد',
-                'body_ar' => $this->message,
-                'title_en' => 'New Notification',
-                'body_en' => $this->message,
-                'title' => 'إشعار جديد',
-                'body' => $this->message,
-            ];
-
-            try {
-                (new SendNotificationHelper())->sendNotification($data, [$user->fcm_token]);
-            } catch (\Exception $e) {
-                \Log::error('FCM Error in DashboardNotification: ' . $e->getMessage());
-            }
-        }
-
         return [
-            'user_id'   => $this->user_id,
-            'message'   => $this->message,
-            'title_ar'  => 'إشعار جديد',
-            'body_ar'   => $this->message,
-            'title_en'  => 'New Notification',
-            'body_en'   => $this->message,
-            'country'   => optional($user)->country ?? '—',
+            'message' => $this->message,
+            'url' => $this->url,  // يمكن عرض الرابط مع الإشعار في الواجهة
         ];
     }
 
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        $mail = (new MailMessage)
             ->subject('إشعار جديد من النظام')
             ->greeting('مرحبًا ' . $notifiable->name)
-            ->line($this->message)
-            ->line('شكرًا لاستخدامك منصتنا!');
+            ->line($this->message);
+
+        if ($this->url) {
+            $mail->action('اذهب إلى لوحة التحكم', $this->url);
+        }
+
+        return $mail->line('شكرًا لاستخدامك منصتنا!');
     }
 }

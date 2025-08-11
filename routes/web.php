@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Web\AdminProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Web\Admin\Advertisement\AdminAdvertisementController;
 use App\Http\Controllers\Web\Admin\Banner\AdminBannerController;
 use App\Http\Controllers\Web\Admin\Category\AdminCategoryController;
 use App\Http\Controllers\Web\Admin\City\CityController;
 use App\Http\Controllers\Web\Admin\Country\CountryController;
+use App\Http\Controllers\Web\Admin\User\UserController;
 use App\Http\Controllers\Web\Admin\Subcategory\AdminSubcategoryController;
 use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\AdminProfileController;
@@ -13,6 +15,7 @@ use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\Vendor\LoginVendorController;
 use App\Http\Controllers\Web\Auth\VendorRegisterController;
 use App\Http\Controllers\Web\NotificationController;
+use App\Http\Controllers\Web\Vendor\VendoreController;
 use App\Http\Controllers\Web\Vendor\VendorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +44,7 @@ Route::group([
     Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
     Route::middleware(['auth:admin'])->group(function () {
+
         Route::get('/tables', [AdminController::class, 'tables'])->name('admin.tables');
         Route::get('/billing', [AdminController::class, 'billing'])->name('admin.billing');
         Route::get('/virtual-reality', [AdminController::class, 'virtualReality'])->name('admin.virtual-reality');
@@ -91,6 +95,19 @@ Route::group([
             Route::delete('/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
         });
 
+        Route::prefix('vendors')->group(function () {
+            Route::get('/', [VendoreController::class, 'index'])->name('vendore.index');
+            Route::get('/create', [VendoreController::class, 'create'])->name('vendore.create');
+            Route::post('/', [VendoreController::class, 'store'])->name('vendore.store');
+            Route::get('/{id}/show', [VendoreController::class, 'show'])->name('vendore.show');
+            Route::get('/{id}/edit', [VendoreController::class, 'edit'])->name('vendore.edit');
+            Route::put('/{id}', [VendoreController::class, 'update'])->name('vendore.update');
+            Route::delete('/{id}', [VendoreController::class, 'destroy'])->name('vendore.destroy');
+
+            Route::post('/vendors/{vendor}/update-status', [VendoreController::class, 'updateStatus'])
+                ->name('vendors.updateStatus');
+        });
+
         Route::prefix('cities')->group(function () {
             Route::get('/', [CityController::class, 'index'])->name('cities.index');
             Route::get('/create', [CityController::class, 'create'])->name('cities.create');
@@ -109,7 +126,7 @@ Route::group([
         });
 
         Route::prefix('users')->group(function () {
-            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profile');
+            Route::get('profile', [AdminProfileController::class, 'profile'])->name('admin.profiles');
             Route::post('/updateProfile', [AdminProfileController::class, 'updateProfile'])->name('admin.updateProfile');
         });
         // Notifications
@@ -119,6 +136,15 @@ Route::group([
             Route::get('/', [NotificationController::class, 'getNotifications'])->name('Admin.notifications');
             Route::delete('/{id}', [NotificationController::class, 'destroy'])->name('Admin.notifications.delete');
             Route::delete('/', [NotificationController::class, 'delete'])->name('Admin.notifications.deleteAll');
+        });
+
+        Route::prefix('users')->group(function () {
+            Route::get('index', [UserController::class, 'index'])->name('admin.pages.users.index');
+            Route::get('create', [UserController::class, 'create'])->name('admin.pages.users.create');
+            Route::post('store', [UserController::class, 'store'])->name('admin.pages.users.store');
+            Route::get('edit/{user}', [UserController::class, 'edit'])->name('admin.pages.users.edit');
+            Route::put('update/{user}', [UserController::class, 'update'])->name('admin.pages.users.update');
+            Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('admin.pages.users.delete');
         });
     });
 

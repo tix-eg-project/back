@@ -3,7 +3,10 @@
 namespace App\Services\Dashboard\Vendor;
 
 use App\Helpers\ImageManger;
+use App\Models\Admin;
+use App\Models\User;
 use App\Models\Vendor;
+use App\Notifications\DashboardNotification;
 use Illuminate\Support\Facades\Hash;
 
 class VendorService
@@ -26,15 +29,14 @@ class VendorService
 
         $data['password'] = Hash::make($data['password']);
 
-        // Create the vendor record
-        return Vendor::create([
+        // إنشاء البائع
+        $vendor = Vendor::create([
             'company_name'  => $data['company_name'],
             'description'   => $data['description'],
             'name'          => $data['name'],
             'email'         => $data['email'],
             'phone'         => $data['phone'],
             'password'      => $data['password'],
-            //  'image'         => $data['image'],
             'address'       => $data['address'],
             'Postal_code'   => $data['Postal_code'],
             'vodafone-cash' => $data['vodafone-cash'],
@@ -44,6 +46,15 @@ class VendorService
             'country_id'    => $data['country_id'],
             'city_id'       => $data['city_id'],
         ]);
+        // إرسال إشعار إلى الأدمن
+        $admins = Admin::all();
+        foreach ($admins as $admin) {
+            \Log::info('Sending notification to admin ID: ' . $admin->id);
+            $admin->notify(new DashboardNotification('تم تسجيل بائع جديد: ' . $vendor->name . ' - ' . $vendor->email));
+        }
+
+
+        return $vendor;
     }
     /**
      * Update an existing vendor.

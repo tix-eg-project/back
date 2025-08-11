@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Admin extends Authenticatable
 {
-    use   Notifiable;
+    use Notifiable;
 
     protected $fillable = [
         'name',
@@ -17,13 +17,19 @@ class Admin extends Authenticatable
         'image',
     ];
 
-    protected $casts = [
-        'data' => 'array',
-    ];
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
-    protected $guard_name = 'admin';
+
+    // العلاقات
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
 }

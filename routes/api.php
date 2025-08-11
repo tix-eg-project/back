@@ -37,6 +37,7 @@ Route::middleware('locale')  // الآن بدون auth:sanctum
         Route::get('countries',                       [CountryController::class, 'index']);
         Route::get('cities/{country_id}', [CityController::class, 'index']);
 
+        Route::post('vendor/register', [RegisterVendorController::class, 'register']);
 
 
         Route::post('vendor/register', [RegisterVendorController::class, 'register']);
