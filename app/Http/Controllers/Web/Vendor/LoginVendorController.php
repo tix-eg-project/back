@@ -18,29 +18,29 @@ class LoginVendorController extends Controller
 
     public function login(LoginRequest $request)
     {
-       
+
         $credentials = $request->only('email', 'password');
 
-  
-        if (Auth::guard('vendor')->attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
-            $vendor = Auth::guard('vendor')->user();  
 
-           
-            if ($vendor->status !== 1) { 
-                Auth::guard('vendor')->logout();  
+        if (Auth::guard('vendor')->attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
+            $vendor = Auth::guard('vendor')->user();
+
+
+            if ($vendor->status !== 1) {
+                Auth::guard('vendor')->logout();
                 return redirect()->route('vendor.login')
-                    ->withErrors([__('messages.account_not_active')]) 
+                    ->withErrors([__('messages.account_not_active')])
                     ->withInput($request->only('email'));
             }
 
 
-            
-            return redirect()->route(route: 'vendor.dashboard')->with('success', __('messages.login_successful')); 
+
+            return redirect()->route(route: 'vendor.dashboard')->with('success', __('messages.login_successful'));
         }
 
-       
+
         return redirect()->route('vendor.login')
-            ->withErrors([__('messages.invalid_login_data')]) 
+            ->withErrors([__('messages.invalid_login_data')])
             ->withInput($request->only('email'));
     }
 

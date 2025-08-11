@@ -19,7 +19,7 @@
     data-theme="theme-default"
     data-assets-path="{{ asset('assets') }}/"
     data-template="vertical-menu-template-free">
-@include('Admin.layout.header')
+@include('Vendor.layout.header')
 
 <body>
     <!-- Layout wrapper -->
@@ -27,7 +27,7 @@
         <div class="layout-container">
             <!-- Menu -->
 
-            @include('Admin.layout.side')
+            @include('Vendor.layout.side')
             <!-- / Menu -->
 
             <!-- Layout container -->
@@ -35,7 +35,7 @@
                 <!-- Navbar -->
 
 
-                @include('Admin.layout.nav')
+                @include('Vendor.layout.nav')
                 <!-- / Navbar -->
 
                 <!-- Content wrapper -->
@@ -62,7 +62,7 @@
 
 
 
-    @include('Admin.layout.js')
+    @include('Vendor.layout.js')
 
 
 

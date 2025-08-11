@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('test', function () {
+    return 'reer';
+});
 
 Route::prefix('auth/user')->group(function () {
     Route::post('register',            [UserAuthController::class, 'register']);
@@ -36,5 +39,5 @@ Route::middleware('locale')  // الآن بدون auth:sanctum
 
 
 
-        Route::post('vendor/register',[RegisterVendorController::class, 'register']);
+        Route::post('vendor/register', [RegisterVendorController::class, 'register']);
     });
