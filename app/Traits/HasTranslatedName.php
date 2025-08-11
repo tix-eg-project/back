@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\App;
 
 trait HasTranslatedName
 {
-    /**
-     * Accessor for the 'name' attribute.
-     * Supports either:
-     *  - JSON column cast to array, e.g. ['ar'=>..., 'en'=>...]
-     *  - Separate columns name_ar, name_en
-     */
+
     public function getNameAttribute($value)
     {
         $locale = app()->getLocale();  // الحصول على اللغة الحالية
@@ -22,10 +17,6 @@ trait HasTranslatedName
     }
 
 
-    /**
-     * Accessor for the 'description' attribute.
-     * Supports JSON stored descriptions similar to name attribute.
-     */
     public function getDescriptionAttribute($value)
     {
         $locale = app()->getLocale(); // الحصول على اللغة الحالية

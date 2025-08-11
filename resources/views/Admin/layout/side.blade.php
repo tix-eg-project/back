@@ -60,7 +60,7 @@
                 <div>{{ __('messages.categories') }}</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item @yield('subcategories_active')">
             <a href="{{ route('subcategories.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-image"></i>
 

@@ -25,12 +25,6 @@ class VendoreController extends Controller
     }
 
 
-    public function edit(string $id)
-    {
-        //
-    }
-
-
     public function updateStatus(Request $request, Vendor $vendor)
     {
         $request->validate([

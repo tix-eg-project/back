@@ -15,6 +15,8 @@ class NotificationController extends Controller
         if (!$admin) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
+        // تعليم كل الإشعارات كـ "مقروءة"
+        $admin->unreadNotifications->markAsRead();
         $notifications = $admin->notifications()->orderBy('created_at', 'desc')->paginate(10);
         $newCount      = $admin->unreadNotifications()->count();
         return view('Admin.pages.notifications.index', compact('notifications', 'newCount'));

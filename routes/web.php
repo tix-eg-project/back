@@ -38,6 +38,7 @@ Route::group([
     Route::post('admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
     Route::middleware(['auth:admin'])->group(function () {
+
         Route::get('/tables', [AdminController::class, 'tables'])->name('admin.tables');
         Route::get('/billing', [AdminController::class, 'billing'])->name('admin.billing');
         Route::get('/virtual-reality', [AdminController::class, 'virtualReality'])->name('admin.virtual-reality');
@@ -131,13 +132,13 @@ Route::group([
             Route::delete('/', [NotificationController::class, 'delete'])->name('Admin.notifications.deleteAll');
         });
 
-          Route::prefix('users')->group(function () {
-                Route::get('index', [UserController::class, 'index'])->name('admin.pages.users.index');
-                Route::get('create', [UserController::class, 'create'])->name('admin.pages.users.create');
-                Route::post('store', [UserController::class, 'store'])->name('admin.pages.users.store');
-                Route::get('edit/{user}', [UserController::class, 'edit'])->name('admin.pages.users.edit');
-                Route::put('update/{user}', [UserController::class, 'update'])->name('admin.pages.users.update');
-                Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('admin.pages.users.delete');
-            });
+        Route::prefix('users')->group(function () {
+            Route::get('index', [UserController::class, 'index'])->name('admin.pages.users.index');
+            Route::get('create', [UserController::class, 'create'])->name('admin.pages.users.create');
+            Route::post('store', [UserController::class, 'store'])->name('admin.pages.users.store');
+            Route::get('edit/{user}', [UserController::class, 'edit'])->name('admin.pages.users.edit');
+            Route::put('update/{user}', [UserController::class, 'update'])->name('admin.pages.users.update');
+            Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('admin.pages.users.delete');
+        });
     });
 });
