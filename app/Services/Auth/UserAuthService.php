@@ -5,6 +5,8 @@ namespace App\Services\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyCodeMail;
 use App\Helpers\ApiResponseHelper;
 
 class UserAuthService
@@ -13,15 +15,21 @@ class UserAuthService
     {
         $user = User::create([
             'email'    => $data['email'],
+            'name'     => $data['name'] ?? null,
+            'phone'    => $data['phone'] ?? null,
+            'address'  => $data['address'] ?? null,
+
             'password' => bcrypt($data['password']),
         ]);
 
         $code = rand(100000, 999999);
         Cache::put('verify_code_' . $user->email, $code, now()->addMinutes(10));
 
+        Mail::to($user->email)->send(new VerifyCodeMail($code));
+
         return ApiResponseHelper::success(
             'messages.register_success',
-            ['code' => $code]
+            ['message' => 'Verification code sent to your email.']
         );
     }
 
@@ -98,9 +106,11 @@ class UserAuthService
         $code = rand(100000, 999999);
         Cache::put('verify_code_' . $email, $code, now()->addMinutes(10));
 
+        Mail::to($email)->send(new VerifyCodeMail($code));
+
         return ApiResponseHelper::success(
             'messages.reset_code_sent',
-            ['code' => $code]
+            ['message' => 'Verification code sent to your email.']
         );
     }
 
@@ -117,9 +127,31 @@ class UserAuthService
         $code = rand(100000, 999999);
         Cache::put('reset_code_' . $email, $code, now()->addMinutes(10));
 
+        Mail::to($email)->send(new VerifyCodeMail($code));
+
         return ApiResponseHelper::success(
             'messages.forget_password_code_sent',
-            ['code' => $code]
+            ['message' => 'Verification code sent to your email.']
+        );
+    }
+    public function resendResetCode(string $email)
+    {
+        $user = User::where('email', $email)->first();
+        if (! $user) {
+            return ApiResponseHelper::error(
+                'messages.email_not_registered',
+                404
+            );
+        }
+
+        $code = rand(100000, 999999);
+        Cache::put('verify_code_' . $email, $code, now()->addMinutes(10));
+
+        Mail::to($email)->send(new VerifyCodeMail($code));
+
+        return ApiResponseHelper::success(
+            'messages.resend reset_password_code_sent',
+            ['message' => 'Verification code sent to your email.']
         );
     }
 

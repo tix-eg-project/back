@@ -41,9 +41,9 @@
 
                         </form>
                         <div>
-                            {{-- <a href="{{ route('admin.pages.users.create') }}" class="btn btn-primary">
+                            <a href="{{ route('admin.pages.users.create') }}" class="btn btn-primary">
                                 <i class="bi bi-plus-circle"></i> {{ __('messages.Add User+') }}
-                            </a> --}}
+                            </a>
                         </div>
                     </div>
 

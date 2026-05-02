@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class CitySeed extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    public static int $count = 11;
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= self::$count; $i++) {
             City::create([
                 'name' => [
                     'ar' => 'القاهرة',

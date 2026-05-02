@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth\User;
+namespace App\Http\Requests\Web\Auth\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,6 +19,7 @@ class UpdateProfileRequest extends FormRequest
             'country'    => 'nullable|string|max:255',
             'address'    => 'nullable|string|max:500',
             'phone'      => 'nullable|string|max:20',
+            'image'     =>  'nullable',
         ];
     }
     public function messages(): array
@@ -29,6 +30,7 @@ class UpdateProfileRequest extends FormRequest
             'country.string'    => __('messages.contact.country_string'),
             'address.string'    => __('messages.contact.address_string'),
             'phone.string'      => __('messages.contact.phone_string'),
+                       
         ];
     }
 }

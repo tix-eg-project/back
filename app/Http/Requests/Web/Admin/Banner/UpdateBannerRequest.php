@@ -20,6 +20,7 @@ class UpdateBannerRequest extends FormRequest
             'description' => 'array|between:2,2',
             'description.ar' => 'required|string|between:2,500',
             'description.en' => 'required|string|between:2,500',
+            'vendor_id' => 'nullable|exists:vendors,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp'
         ];
     }

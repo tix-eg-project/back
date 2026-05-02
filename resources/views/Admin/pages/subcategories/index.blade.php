@@ -1,77 +1,127 @@
 @extends('Admin.layout.app')
-@section('subcategories_active', 'active')
+
 @section('title', __('messages.subcategories'))
+@section('page_title', __('messages.subcategories'))
+@section('subcategories_active', 'active')
 
 @section('content')
-    <div class="content-wrapper">
-        <!-- Content -->
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4 text-center">{{ __('messages.subcategories') }}</h4>
+<div class="container-xxl container-p-y">
 
-            <div class="card">
-                <div class="card-body">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+        <h4 class="mb-0">{{ __('messages.subcategories') }}</h4>
+        <a href="{{ route('subcategories.create') }}" class="btn btn-primary">
+            <i class="bx bx-plus"></i> {{ __('messages.add_subcategory') }}
+        </a>
+    </div>
 
+    {{-- بحث + فلتر (حسب القسم) --}}
+    <div class="card mb-3">
+        <div class="card-body">
+            <form method="GET" action="{{ route('subcategories.index') }}" id="searchForm">
+                <div class="row g-2 align-items-center">
+                    <div class="col-12 col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bx bx-search"></i></span>
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control"
+                                placeholder="{{ __('messages.search') }}"
+                                value="{{ request('search') }}">
+                            @if(request('search'))
+                            <a href="{{ route('subcategories.index', collect(request()->except(['search','page']))->filter()->all()) }}"
+                                class="btn btn-outline-secondary">
+                                {{ __('messages.clear') }}
+                            </a>
+                            @endif
+                        </div>
+                    </div>
 
-                    <a href="{{ route('subcategories.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> {{ __('messages.add_subcategory') }}
-                    </a>
+                    <div class="col-12 col-md-4">
+                        <select name="category_id" class="form-select">
+                            <option value="">{{ __('messages.all_categories') }}</option>
+                            @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" @selected((string)request('category_id')===(string)$cat->id)>
+                                {{ $cat->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-2 text-end">
+                        <button class="btn btn-secondary w-100">
+                            <i class="bx bx-filter-alt"></i> {{ __('messages.filter') }}
+                        </button>
+                    </div>
                 </div>
-
-                <div class="table-responsive text-nowrap">
-                    <table class="table table-striped text-black text-center">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{{ __('messages.name') }}</th>
-                                <th>{{ __('messages.description') }}</th>
-                                <th>{{ __('messages.category') }}</th>
-                                <th>{{ __('messages.image') }}</th>
-                                <th>{{ __('messages.actions') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($subcategories as $subcategory)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $subcategory->name }}</td>
-                                    <td>{{ Str::limit($subcategory->description, 50) }}</td>
-                                    <td>{{ $subcategory->category->name }}</td>
-
-
-                                    <td>
-                                        @if ($subcategory->image)
-                                            <img src="{{ asset($subcategory->image) }}" width="60" alt="">
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('subcategories.edit', $subcategory->id) }}"
-                                            class="btn btn-sm btn-warning">{{ __('messages.edit') }}</a>
-                                        <form action="{{ route('subcategories.destroy', $subcategory->id) }}"
-                                            method="POST" class="d-inline-block">
-                                            @csrf @method('DELETE')
-                                            <button onclick="return confirm('{{ __('messages.confirm_delete') }}')"
-                                                class="btn btn-sm btn-danger">
-                                                {{ __('messages.delete') }}
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center">{{ __('messages.no_data') }}</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {{ $subcategories->links('pagination::bootstrap-4') }}
-                </div>
-
-            </div>
+            </form>
         </div>
     </div>
 
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0 text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:56px">#</th>
+                        <th>{{ __('messages.name') }}</th>
+                        <th>{{ __('messages.description') }}</th>
+                        <th>{{ __('messages.category') }}</th>
+                        <th class="text-end" style="width:140px">{{ __('messages.actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($subcategories as $item)
+                    @php
+                    $loc = app()->getLocale();
+
+                    // name
+                    $name = method_exists($item, 'getTranslation') ? ($item->getTranslation('name', $loc) ?? null) : null;
+                    if (!$name) {
+                    $raw = is_string($item->name) ? json_decode($item->name, true) : $item->name;
+                    $name = is_array($raw) ? ($raw[$loc] ?? reset($raw)) : ($item->name ?? null);
+                    }
+
+                    // description (مختصر)
+                    $desc = method_exists($item, 'getTranslation') ? ($item->getTranslation('description', $loc) ?? null) : null;
+                    if (!$desc) {
+                    $rawd = is_string($item->description) ? json_decode($item->description, true) : $item->description;
+                    $desc = is_array($rawd) ? ($rawd[$loc] ?? reset($rawd)) : ($item->description ?? null);
+                    }
+                    $descShort = \Illuminate\Support\Str::limit(strip_tags((string)$desc), 60);
+                    @endphp
+
+                    <tr>
+                        <td>{{ $loop->iteration + ($subcategories->currentPage()-1) * $subcategories->perPage() }}</td>
+                        <td>{{ $name ?: '-' }}</td>
+                        <td class="text-muted">{{ $descShort ?: '—' }}</td>
+                        <td>{{ $item->category?->name ?? '—' }}</td>
+                        <td class="text-end">
+                            <a href="{{ route('subcategories.edit', $item->id) }}" class="btn btn-sm btn-primary">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <form action="{{ route('subcategories.destroy', $item->id) }}" method="POST" class="d-inline-block">
+                                @csrf @method('DELETE')
+                                <button onclick="return confirm('{{ __('messages.confirm_delete') }}')" class="btn btn-sm btn-danger">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">{{ __('messages.no_data') }}</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($subcategories instanceof \Illuminate\Pagination\LengthAwarePaginator)
+        <div class="card-body">
+            {{ $subcategories->appends(request()->query())->links('pagination::bootstrap-5') }}
+        </div>
+        @endif
+    </div>
+</div>
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Api\Auth\User;
+namespace App\Http\Requests\Web\Auth\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +11,7 @@ class VerifyResetCodeRequest extends FormRequest
         return true;
     }
 
-   public function rules()
+    public function rules()
     {
         return [
             'email' => 'required|email|exists:users,email',
@@ -29,6 +29,4 @@ class VerifyResetCodeRequest extends FormRequest
             'code.integer'   => __('messages.code_invalid'),
         ];
     }
-
-
 }

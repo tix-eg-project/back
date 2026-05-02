@@ -57,10 +57,20 @@ class NotificationController extends Controller
         return back();
     }
 
-    // public function index()
-    // {
-    //     $notifications = auth()->user()->notifications;
+    public function index()
+    {
+        $admin = Auth::guard('admin')->user();
+        if (! $admin) {
+            return redirect()->route('admin.login'); // أو رجّع 401 لو ده API
+        }
 
-    //     return view('admin.notifications.index', compact('notifications'));
-    // }
+        // رجّع Paginator بدل Collection
+        $notifications = $admin->notifications()
+            ->latest()
+            ->paginate(10);
+
+        $newCount = $admin->unreadNotifications()->count();
+
+        return view('Admin.pages.notifications.index', compact('notifications', 'newCount'));
+    }
 }

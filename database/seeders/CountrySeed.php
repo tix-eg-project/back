@@ -3,17 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CountrySeed extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+  public static int $count = 11;    
+
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < self::$count; $i++) {
             Country::create([
                 'name' => [
                     'ar' => 'مصر',

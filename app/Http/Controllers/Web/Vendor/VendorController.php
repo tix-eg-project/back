@@ -3,42 +3,43 @@
 namespace App\Http\Controllers\Web\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\Country;
-use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Offer;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
-    // دالة لعرض صفحة الـ Dashboard
     public function dashboard()
     {
+        $vendorId = auth('vendor')->id();
 
-        return view('Vendor.dashboard');
+        // أعداد أساسية
+        $productsCount = Product::where('vendor_id', $vendorId)->count();
+        $offersCount   = Offer::where('vendor_id', $vendorId)->count();
+
+        // عدد الطلبات التي تحتوي عناصر تخص هذا الفندور
+        $ordersCount = Order::whereHas('items', function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId)
+                ->orWhereHas('product', fn($p) => $p->where('vendor_id', $vendorId));
+        })->count();
+
+        // إجمالي مبيعات عناصر التاجر (آخر 30 يوم)
+        $revenue30d = (float) (OrderItem::where(function ($q) use ($vendorId) {
+            $q->where('vendor_id', $vendorId)
+                ->orWhereHas('product', fn($p) => $p->where('vendor_id', $vendorId));
+        })
+            ->whereHas('order', fn($o) => $o->where('status', '!=', 'canceled'))
+            ->whereBetween('created_at', [now()->subDays(30), now()])
+            ->select(DB::raw('SUM(price_after * quantity) as total'))
+            ->value('total') ?? 0);
+
+        return view('Vendor.dashboard', compact(
+            'productsCount',
+            'offersCount',
+            'ordersCount',
+            'revenue30d'
+        ));
     }
-
-    // دالة لعرض صفحة الـ Tables
-    public function tables()
-    {
-        return view('Vendor.pages.tables');
-    }
-
-    // دالة لعرض صفحة الـ Billing
-    public function billing()
-    {
-        return view('Vendor.pages.billing');
-    }
-
-    // دالة لعرض صفحة الـ Virtual Reality
-    public function virtualReality()
-    {
-        return view('Vendor.pages.virtual-reality');
-    }
-
-    // دالة لعرض صفحة الـ Profile
-    // public function profile()
-    // {
-    //     return view('Vendor.pages.profile');
-    // }
-
-    // يمكنك إضافة المزيد من الدوال هنا للصفحات الأخرى
 }

@@ -19,18 +19,35 @@ class AdminSubcategoryController extends Controller
         $this->subCategoryService = $subCategoryService;
     }
 
+
+
     public function index(Request $request)
     {
-        $query = Subcategory::latest();
+        $loc = app()->getLocale();
+        $search = trim((string) $request->get('search'));
 
-        if ($request->has('search') && $request->search != '') {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
+        $subcategories = Subcategory::query()
+            ->with('category:id,name')
+            ->when($request->filled('category_id'), function ($q) use ($request) {
+                $q->where('category_id', (int) $request->category_id);
+            })
+            ->when($search !== '', function ($q) use ($search, $loc) {
+                $q->where(function ($qq) use ($search, $loc) {
+                    $qq->where("name->{$loc}", 'like', "%{$search}%")
+                        ->orWhere('name', 'like', "%{$search}%")
+                        ->orWhere("description->{$loc}", 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+                });
+            })
+            ->orderByDesc('id')
+            ->paginate(15)
+            ->appends($request->query()); 
 
-        $subcategories = $query->paginate(10);
-        $categories = Category::all();
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+
         return view('Admin.pages.subcategories.index', compact('subcategories', 'categories'));
     }
+
 
     public function create()
     {

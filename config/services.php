@@ -2,37 +2,25 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Third Party Services
-    |--------------------------------------------------------------------------
-    |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
-    |
-    */
+    // ... باقي الكونفيجات (mail, services أخرى)
 
-    'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
+    // 'paysky' => [
+    //     'merchant_id'      => env('PAYSKY_MERCHANT_ID'),                         // لازم في .env
+    //     'terminal_id'      => env('PAYSKY_TERMINAL_ID'),                         // لازم في .env
+    //     'secret'           => env('PAYSKY_SECRET'),                              // لازم في .env
+    //     'currency'         => env('PAYSKY_CURRENCY', 'EGP'),
+    //     'mode'             => env('PAYSKY_MODE', 'sandbox'),
+    //     'return_url'       => env('PAYSKY_RETURN_URL'),                          // لازم في .env
+    //     'callback_url'     => env('PAYSKY_CALLBACK_URL'),                        // لازم في .env
+    //     // حطّ افتراضي لو تحب، أو سيبه فاضي عشان يبان بدري لو ناقص
+    //     'payform_endpoint' => env('PAYSKY_PAYFORM_ENDPOINT', 'https://grey.paysky.io/PayFormPlus/api/Payment/Pay'),
+    // ],
+
+    'vsoft' => [
+        'base'         => env('VSOFT_BASE', 'https://vsoftapi.com-eg.net/api/ClientUsers/V6'),
+        'access_token' => env('VSOFT_ACCESS_TOKEN'),
+        'company_id'   => env('VSOFT_COMPANY_ID'),
     ],
 
-    'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
-
-    'resend' => [
-        'key' => env('RESEND_KEY'),
-    ],
-
-    'slack' => [
-        'notifications' => [
-            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
-            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
-        ],
-    ],
 
 ];

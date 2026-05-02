@@ -34,6 +34,7 @@ class StoreSubcategoryRequest extends FormRequest
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
+
     public function messages(): array
     {
         return [
@@ -53,13 +54,13 @@ class StoreSubcategoryRequest extends FormRequest
             'description.ar.string' => 'The Arabic description must be a string.',
             'description.ar.between' => 'The Arabic description must be between :min and :max characters.',
             'description.en.required' => 'The English description field is required.',
-            'description.en.string' => 'The English description must be a string.',            
-            'description.en.between' => 'The English description must be between :min and :max characters.',            
+            'description.en.string' => 'The English description must be a string.',
+            'description.en.between' => 'The English description must be between :min and :max characters.',
             'category_id.required' => 'The category field is required.',
-            'category_id.exists' => 'The selected category is invalid.',            
+            'category_id.exists' => 'The selected category is invalid.',
             'image.required' => 'The image is required.',
             'image.image' => 'The image must be an image.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',            
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, svg.',
             'image.max' => 'The image may not be greater than 2MB.',
         ];
     }

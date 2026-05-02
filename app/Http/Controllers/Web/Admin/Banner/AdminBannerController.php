@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\Admin\Banner\StoreBannerRequest;
 use App\Http\Requests\Web\Admin\Banner\UpdateBannerRequest;
 use App\Models\Banner;
+use App\Models\Vendor;
 use App\Services\Dashboard\BannerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -20,11 +21,13 @@ class AdminBannerController extends Controller
         $this->bannerService = $bannerService;
     }
 
-
     public function index()
     {
-        $search = request('search');
-        $query = Banner::query()->latest();
+        $search    = request('search');
+        $vendorId  = request('vendor_id');
+        $query = Banner::query()
+            ->with('vendor')
+            ->latest();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -33,31 +36,33 @@ class AdminBannerController extends Controller
             });
         }
 
+        if (!empty($vendorId)) {
+            $query->where('vendor_id', $vendorId);
+        }
+
         $banners = $query->paginate(10);
 
-        return View::make('Admin.pages.banners.index', compact('banners'));
-    }
+        $vendors = Vendor::select('id', 'name')->orderBy('name')->get();
 
+        return View::make('Admin.pages.banners.index', compact('banners', 'vendors', 'vendorId', 'search'));
+    }
 
     public function create()
     {
-
-        return View::make('Admin.pages.banners.create');
+        $vendors = Vendor::select('id', 'name')->orderBy('name')->get();
+        return View::make('Admin.pages.banners.create', compact('vendors'));
     }
 
     public function store(StoreBannerRequest $request): RedirectResponse
     {
-        // dd($request->all());
-
         $this->bannerService->store($request->validated());
-
         return Redirect::route('banners.index')->with('success', __('messages.banner_created'));
     }
 
-
     public function edit(Banner $banner)
     {
-        return View::make('Admin.pages.banners.edit', compact('banner'));
+        $vendors = Vendor::select('id', 'name')->orderBy('name')->get();
+        return View::make('Admin.pages.banners.edit', compact('banner', 'vendors'));
     }
 
     public function update(UpdateBannerRequest $request, Banner $banner): RedirectResponse

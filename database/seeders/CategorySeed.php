@@ -8,12 +8,10 @@ use Illuminate\Database\Seeder;
 
 class CategorySeed extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    public static int $count = 11;
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < self::$count; $i++) {
             Category::create([
                 'name' => [
                     'ar' => 'تصنيف ' . $i,

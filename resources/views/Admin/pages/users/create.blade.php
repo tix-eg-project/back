@@ -1,4 +1,5 @@
-@extends('Admin.layouts.app')
+@extends('Admin.layout.app')
+@section('users_active', 'active')
 @section('title', __('Add User'))
 <style>
     select.form-control {
@@ -13,12 +14,12 @@
 </style>
 @section('content')
     <!--start main wrapper-->
-    @can('users-create')
+    {{-- @can('users-create') --}}
     <main class="main-wrapper">
         <div class="main-content">
             <div class="row mb-5">
                 <div class="card-header bg-primary text-white rounded-top mb-4">
-                    <h5 class="mb-0">{{ __('menu.Add a new user') }}</h5>
+                    <h5 class="mb-0">{{ __('messages.Add a new user') }}</h5>
                 </div>
                 <div class="col-12">
                     <form method="post" action="{{ route('admin.pages.users.store') }}" class="p-4 rounded shadow-lg bg-white"
@@ -28,25 +29,25 @@
                             <div class="card-body">
                                 <div class="row g-3">
                                     <div class="col-md-6 mb-4">
-                                        <label for="name" class="form-label">{{ __('menu.Name') }}</label>
+                                        <label for="name" class="form-label">{{ __('messages.Name') }}</label>
                                         <input type="text" name="name" value="{{ old('name') }}" id="name"
-                                            class="form-control" placeholder="{{ __('menu.Enter the user name') }}">
+                                            class="form-control" placeholder="{{ __('messages.Enter the user name') }}">
                                         @error('name')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-4">
-                                        <label for="email" class="form-label">{{ __('menu.Email') }}</label>
+                                        <label for="email" class="form-label">{{ __('messages.Email') }}</label>
                                         <input type="email" name="email" value="{{ old('email') }}" id="email"
-                                            class="form-control" placeholder="{{ __('menu.Enter the user email') }}">
+                                            class="form-control" placeholder="{{ __('messages.Enter the user email') }}">
                                         @error('email')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-4">
-                                        <label for="image" class="form-label">{{ __('menu.Image') }}</label>
+                                        <label for="image" class="form-label">{{ __('messages.Image') }}</label>
                                         <input type="file" value="{{ old('image') }}" name="image" id="image"
                                             class="form-control" placeholder="{{ __('Enter the user image') }}">
                                         @error('image')
@@ -56,49 +57,14 @@
 
 
                                     <div class="col-md-6 mb-4">
-                                        <label for="phone" class="form-label">{{ __('menu.Mobile Number') }}</label>
+                                        <label for="phone" class="form-label">{{ __('messages.Mobile Number') }}</label>
                                         <input type="number" value="{{ old('phone') }}" name="phone" id="phone"
-                                            class="form-control" placeholder="{{ __('menu.Enter the user mobile number') }}">
+                                            class="form-control" placeholder="{{ __('messages.Enter the user mobile number') }}">
                                         @error('phone')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="country_id">{{ __('menu.Select Country') }}</label>
-                                        <select name="country_id"
-                                            class="form-control @error('country_id') is-invalid @enderror" required>
-                                            <option value="" disabled selected hidden>--
-                                                {{ __('menu.Select Country') }} --</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}"
-                                                    {{ old('country_id') == $country->id ? 'selected' : '' }}>
-                                                    {{ $country->name ?? 'Country #' . $country->id }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('country_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="city_id">{{ __('menu.Select City') }}</label>
-                                        <select name="city_id" class="form-control @error('city_id') is-invalid @enderror"
-                                            required>
-                                            <option value="" disabled selected hidden>--
-                                                {{ __('menu.Select City') }} --</option>
-                                            @foreach ($cities as $city)
-                                                <option value="{{ $city->id }}"
-                                                    {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                                                    {{ $city->name ?? 'City #' . $city->id }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('city_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
 
                                     <!--<div class="col-md-6">-->
                                     <!--    <label for="national_number" class="form-label">{{ __('National Number') }}</label>-->
@@ -112,7 +78,7 @@
                                         @enderror-->
 
                                     <div class="col-md-6 mb-4">
-                                        <label for="password" class="form-label">{{ __('menu.Password') }}</label>
+                                        <label for="password" class="form-label">{{ __('messages.Password') }}</label>
                                         <input type="password" name="password" id="password" class="form-control"
                                             placeholder="{{ __('Enter the user password') }}">
                                         @error('password')
@@ -121,10 +87,10 @@
                                     </div>
 
                                     <div class="col-md-6 mb-4">
-                                        <label for="role_id" class="form-label text-dark">{{ __('menu.Role') }}</label>
+                                        <label for="role_id" class="form-label text-dark">{{ __('messages.Role') }}</label>
                                         <select class="form-select bg-white text-dark" value="{{ old('role_id') }}"
                                             name="role_id" id="role_id">
-                                            <option value="" selected>{{ __('menu.Choose the user role') }}</option>
+                                            <option value="" selected>{{ __('messages.Choose the user role') }}</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                                             @endforeach
@@ -136,7 +102,7 @@
 
                                 </div>
                                 <div class="bg-light w-100">
-                                    <button type="submit" class="btn btn-primary w-100 px-4">{{ __('menu.Save') }}</button>
+                                    <button type="submit" class="btn btn-primary w-100 px-4">{{ __('messages.Save') }}</button>
                                 </div>
                             </div>
                     </form>
@@ -144,6 +110,6 @@
             </div>
         </div>
     </main>
-    @endcan
+    {{-- @endcan --}}
     <!--end main wrapper-->
 @endsection

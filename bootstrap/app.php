@@ -5,6 +5,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 use App\Http\Middleware\VerifyCsrfToken;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,13 +18,15 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
 
         $middleware->group('api', [
-            EnsureFrontendRequestsAreStateful::class,
+
             'locale',
         ]);
+
 
         $middleware->appendToGroup('web', [
             VerifyCsrfToken::class,
         ]);
+
         $middleware->alias([
             /**** OTHER MIDDLEWARE ALIASES ****/
             'locale' => \App\Http\Middleware\SetLocaleFromHeader::class,
@@ -32,6 +36,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
             'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             'check.notification' => \App\Http\Middleware\CheckNotification::class,
+
+
+            'permission' => PermissionMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

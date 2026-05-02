@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\ContactUs;
 use App\Models\Country;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ShippingZone;
 use App\Models\User;
 use App\Models\Vendor;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -18,7 +21,13 @@ class AdminController extends Controller
         $countrycount = Country::count();
         $vendorcount = Vendor::count();
         $userscount = User::count();
-        return view('Admin.dashboard', compact('vendorcount','citycount', 'countrycount', 'userscount'));
+        $ordercount = Order::count();
+        $contactuscount = ContactUs::count();
+        $shippingzone = ShippingZone::count();
+        $productcount = Product::count();
+
+
+        return view('Admin.dashboard', compact('vendorcount', 'citycount', 'countrycount', 'userscount', 'ordercount', 'contactuscount', 'productcount', 'shippingzone'));
     }
 
     // دالة لعرض صفحة الـ Tables
@@ -27,23 +36,13 @@ class AdminController extends Controller
         return view('Admin.pages.tables');
     }
 
-    // دالة لعرض صفحة الـ Billing
     public function billing()
     {
         return view('Admin.pages.billing');
     }
 
-    // دالة لعرض صفحة الـ Virtual Reality
     public function virtualReality()
     {
         return view('Admin.pages.virtual-reality');
     }
-
-    // دالة لعرض صفحة الـ Profile
-    public function profile()
-    {
-        return view('Admin.pages.profile');
-    }
-
-    // يمكنك إضافة المزيد من الدوال هنا للصفحات الأخرى
 }

@@ -16,13 +16,14 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
+        // dd(Auth::user());
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials)) {
             return redirect()->route('admin.dashboard')->with('success', 'Login successful!');
         }
-        dd($credentials, Auth::guard('admin')->attempt($credentials), Auth::guard('admin')->user());
+        // dd($credentials, Auth::guard('admin')->attempt($credentials), Auth::guard('admin')->user());
 
-        return redirect()->route('admin.login')
+        return redirect()->route('login')
             ->withErrors(['Error' => 'Invalid login data'])
             ->withInput(input: $request->only('email'));
     }
@@ -33,6 +34,6 @@ class LoginController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     }
 }

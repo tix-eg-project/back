@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 
 class Vendor extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens,HasRoles;
+
     protected $table = 'vendors';
-    use Notifiable, HasApiTokens;
 
     protected $fillable = [
         'company_name',
@@ -23,14 +23,16 @@ class Vendor extends Authenticatable
         'password',
         'image',
         'address',
-        'Postal_code',
-        'vodafone-cash',
+        'postal_code',
+        'vodafone_cash',
         'instapay',
-        'Type_business',
+        'type_business',
         'category_id',
         'country_id',
         'city_id',
         'status',
+        'id_card_front_image',
+        'id_card_back_image',
     ];
 
     protected $guarded = [];
@@ -51,11 +53,25 @@ class Vendor extends Authenticatable
         return $this->belongsTo(City::class);
     }
 
-    // في موديل Vendor
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function banners()
+    {
+        return $this->hasMany(Banner::class);
+    }
+    public function products()
+    {
+        return $this->hasMany(\App\Models\Product::class, 'vendor_id');
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(\App\Models\Offer::class, 'vendor_id');
+    }
+
+
     protected $casts = [
         'data' => 'array',
     ];

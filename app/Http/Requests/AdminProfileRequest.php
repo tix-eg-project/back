@@ -24,10 +24,12 @@ class AdminProfileRequest extends FormRequest
     {
         $userId = auth()->id();
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users,email,' . $userId],
-            'phone' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
+            'name'     => ['required', 'string'],
+            'email'    => ['required', 'email', 'unique:users,email,' . $userId],
+            'phone'    => ['nullable', 'string'],
+            'image'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg'],
+            // ✳️ الباسورد اختياري — لو اتبعت فقط
+            'password' => ['nullable', 'string', 'min:6'],
         ];
     }
 }

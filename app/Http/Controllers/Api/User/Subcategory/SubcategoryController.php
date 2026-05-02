@@ -34,4 +34,20 @@ class SubcategoryController extends Controller
             $subcategories
         );
     }
+
+    public function getsubcategorybycategory($id)
+    {
+        $subcategories = Subcategory::where('category_id', $id)->get()->map(fn($subcategory) => [
+
+            'id'          => $subcategory->id,
+            'name'       => $subcategory->name,
+            'description' => $subcategory->description,
+            'category_id' => $subcategory->category_id,
+            'image'       => asset($subcategory->image),
+        ]);
+        return ApiResponseHelper::success(
+            __('messages.category_list_retrieved'),
+            $subcategories
+        );
+    }
 }

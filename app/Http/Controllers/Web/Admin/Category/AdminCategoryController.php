@@ -54,9 +54,9 @@ class AdminCategoryController extends Controller
 
 
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $this->categoryService->delete($id);
+        $this->categoryService->delete($category);
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully.');;
     }
 }

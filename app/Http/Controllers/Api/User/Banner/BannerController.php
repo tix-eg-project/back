@@ -25,6 +25,7 @@ class BannerController extends Controller
                 'title'       => $banner->title,
                 'description' => $banner->description,
                 'image'       => asset($banner->image),
+                'vendor_id'   => $banner->vendor_id,
             ]);
 
         return ApiResponseHelper::success(

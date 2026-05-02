@@ -14,12 +14,19 @@ class Banner extends Model
         'title',
         'description',
         'image',
+        'vendor_id',
     ];
 
     protected $casts = [
         'title' => 'array',
         'description' => 'array',
     ];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
 
     protected static array $translatedAttributes = [
         'title',

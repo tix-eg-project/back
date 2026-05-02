@@ -1,101 +1,148 @@
-{{-- resources/views/dashboard/auth/login.blade.php --}}
+{{-- resources/views/vendor/auth/login.blade.php --}}
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html
+    lang="ar"
+    dir="rtl"
+    class="light-style customizer-hide"
+    data-theme="theme-default"
+    data-assets-path="{{ asset('assets') }}/"
+    data-template="vertical-menu-template-free">
 
 <head>
-    <title>تسجيل الدخول</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ __('messages.vendor_login_title') }}</title>
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <!-- Favicon (اختياري) -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
 
-    <!-- Bootstrap RTL -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <!-- خطوط وأيقونات Sneat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/boxicons.css') }}" />
 
-    <!-- Custom login CSS -->
-    <link rel="stylesheet" href="{{ asset('template/css/login.css') }}">
+    <!-- Core CSS (Sneat) -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+
+    <!-- صفحة auth -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/css/pages/page-auth.css') }}" />
+
+    <!-- Helpers & Config -->
+    <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('assets/js/config.js') }}"></script>
 </head>
 
 <body>
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner">
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-body">
 
-    <div class="login-page bg-light min-vh-100 d-flex align-items-center">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 offset-lg-1">
-                    <h3 class="mb-3 text-center">تسجيل الدخول للمتجر</h3>
-                    <div style="margin: 50px 0;" class="bg-white shadow rounded">
-                        <div style="height: 450px;" class="row justify-content-center">
-                            <div class="col-md-6 ps-0 mt-5">
-                                <div class="form-left h-100 py-5 px-5">
-                                    <form method="POST" action="{{ route('vendor.login') }}" class="row g-4">
-                                        @csrf
-
-                                        <div class="col-12">
-                                            <label class="mb-2">البريد الالكتروني</label>
-                                            <div class="input-group">
-                                                <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                <input type="email" name="email" class="form-control"
-                                                    placeholder="ادخل البريد الالكتروني"
-                                                    value="{{ old('email') }}" required autofocus>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label class="mb-2">كلمة المرور</label>
-                                            <div class="input-group">
-                                                <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                <input type="password" name="password" id="password"
-                                                    class="form-control"
-                                                    placeholder="ادخل كلمة المرور" required>
-                                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                                    <i class="bi bi-eye-slash" id="toggleIcon"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        @if ($errors->any())
-                                        <div class="col-12">
-                                            <div class="alert alert-danger mt-2 text-center w-100">
-                                                {{ $errors->first() }}
-                                            </div>
-                                        </div>
-                                        @endif
-
-                                        <div class="col-12 text-center mx-auto d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-login px-4 float-start mt-4">تسجيل الدخول</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-md-6 pe-0 d-none d-md-block">
-                                <div class="form-right align h-100 bg-login text-white text-center pt-5">
-                                    <img class="mt-5" src="{{ asset('template/images/MyTours.jpg') }}" width="150px" alt="">
-                                    <h2 class="fs-1 mt-4">مرحباً بعودتك!</h2>
-                                </div>
-                            </div>
+                        <!-- لوجو/عنوان (اختياري: استبدل بصورة شعارك) -->
+                        <div class="app-brand justify-content-center mb-2">
+                            <a href="{{ url('/') }}" class="app-brand-link gap-2">
+                                <span class="app-brand-text demo text-body fw-bolder">{{ config('app.name', 'Tix') }}</span>
+                            </a>
                         </div>
+
+                        <!-- عنوان -->
+                        <h4 class="mb-2 text-center">{{ __('messages.vendor_login_title') }}</h4>
+
+                        <!-- فورم تسجيل الدخول — نفس الداتا ونفس route -->
+                        <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('vendor.login') }}">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">{{ __('messages.email') }}</label>
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text"><i class="bx bx-user"></i></span>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="{{ __('messages.email_placeholder') }}"
+                                        value="{{ old('email') }}"
+                                        required
+                                        autofocus />
+                                </div>
+                            </div>
+
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="password">{{ __('messages.password') }}</label>
+                                <div class="input-group input-group-merge">
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        class="form-control"
+                                        name="password"
+                                        placeholder="••••••••"
+                                        required
+                                        aria-describedby="password" />
+                                    <span class="input-group-text cursor-pointer" id="togglePassword">
+                                        <i class="bx bx-hide" id="toggleIcon"></i>
+                                    </span>
+                                </div>
+                            </div>
+
+                            @if ($errors->any())
+                            <div class="alert alert-danger text-center" role="alert">
+                                {{ $errors->first() }}
+                            </div>
+                            @endif
+
+                            <button class="btn btn-primary d-grid w-100" type="submit">{{ __('messages.login_title') }}</button>
+                        </form>
+                        <!-- /فورم -->
+
+                        <!-- جانب بصري (اختياري لو عايز جملة ترحيب أو صورة) -->
+                        {{--
+                        <div class="text-center mt-3">
+                            <img src="{{ asset('template/images/MyTours.jpg') }}" alt="" width="120" class="rounded-2">
+                        <div class="mt-2 text-muted">مرحباً بعودتك!</div>
                     </div>
+                    --}}
+
                 </div>
             </div>
+            <!-- /Card -->
         </div>
     </div>
+    </div>
 
-    <!-- JavaScript لإظهار/إخفاء كلمة المرور -->
+    <!-- Core JS (Sneat) -->
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <!-- Toggle كلمة المرور (لو سكربت القالب مش مفعّل) -->
     <script>
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const toggleIcon = document.getElementById('toggleIcon');
-
-        togglePassword.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-
-            toggleIcon.classList.toggle('bi-eye');
-            toggleIcon.classList.toggle('bi-eye-slash');
-        });
+        (function() {
+            const toggleBtn = document.getElementById('togglePassword');
+            const input = document.getElementById('password');
+            const icon = document.getElementById('toggleIcon');
+            if (toggleBtn && input && icon) {
+                toggleBtn.addEventListener('click', function() {
+                    const isPassword = input.getAttribute('type') === 'password';
+                    input.setAttribute('type', isPassword ? 'text' : 'password');
+                    icon.classList.toggle('bx-hide', !isPassword);
+                    icon.classList.toggle('bx-show', isPassword);
+                });
+            }
+        })();
     </script>
-
 </body>
 
 </html>

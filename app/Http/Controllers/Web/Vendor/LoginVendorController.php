@@ -26,7 +26,7 @@ class LoginVendorController extends Controller
             $vendor = Auth::guard('vendor')->user();
 
 
-            if ($vendor->status !== 1) {
+            if ($vendor->status != 1) {
                 Auth::guard('vendor')->logout();
                 return redirect()->route('vendor.login')
                     ->withErrors([__('messages.account_not_active')])

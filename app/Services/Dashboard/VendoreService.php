@@ -3,8 +3,8 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Vendor;
-use App\Notifications\DashboardNotification;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ActiveAcountMail;
 
 class VendoreService
 {
@@ -12,11 +12,13 @@ class VendoreService
     {
         $search = request('search');
         $query = Vendor::query();
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%');
             });
         }
+
         return $query->latest()->paginate(10);
     }
 
@@ -34,15 +36,18 @@ class VendoreService
     {
         $vendor->update(['status' => $status]);
 
-        $statusMessage = $status == 1
-            ? 'تمت الموافقة على الاشتراك من قبل الإدارة'
-            : 'تم رفض الاشتراك من قبل الإدارة';
+        // إرسال البريد للفندور في الحالتين (قبول/رفض)
+        $approved   = ((int) $status === 1);
+        $loginUrl   = 'https://admin.tix-eg.com/vendor/login';
+        $vendorName = $vendor->company_name ?? $vendor->name ?? 'عزيزنا المستخدم';
 
-        // الرابط الذي يوجه التاجر إلى الداشبورد (غيرلها حسب رابط الداشبورد عندك)
-        $dashboardUrl = route('vendore.index');  // مثال
-
-        // إرسال الإشعار مع الرابط
-        $vendor->notify(new DashboardNotification($statusMessage, $dashboardUrl));
+        Mail::to($vendor->email)->send(
+            new ActiveAcountMail(
+                approved: $approved,
+                vendorName: $vendorName,
+                loginUrl: $approved ? $loginUrl : null
+            )
+        );
 
         return true;
     }

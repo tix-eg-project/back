@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    public static int $count = 11;
     public function run(): void
     {
-        for ($i = 0; $i < 12; $i++) {
+        for ($i = 0; $i < self::$count; $i++) {
             User::create([
                 'name' => 'User ' . $i,
                 'email' => 'user' . $i . '@user.com',

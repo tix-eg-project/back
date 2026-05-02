@@ -12,11 +12,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AdminSeeder::class,
-            UserSeeder::class,
-            CategorySeed::class,
-            CountrySeed::class,
-            CitySeed::class,
+            //AdminSeeder::class,
+            // UserSeeder::class,
+            //CategorySeed::class,
+            //CountrySeed::class,
+            //CitySeed::class,
+            //VendorSeeder::class,
+            // AllTablesSeeder::class
+
+            RolePermissionSeeder::class,
+            OnlyPermissionsSeeder::class,
+            // AssignPermissionsToSuperAdminSeeder::class,
+
+
         ]);
     }
 }

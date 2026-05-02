@@ -48,7 +48,6 @@
                         @enderror
                     </div>
 
-
                     <div class="mb-3">
                         <label class="form-label">{{ __('messages.Email') }}</label>
                         <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}"
@@ -65,6 +64,16 @@
                         @error('phone')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
+                    </div>
+
+                    {{-- ✳️ حقل الباسورد الجديد (اختياري) --}}
+                    <div class="mb-3">
+                        <label class="form-label">كلمة المرور الجديدة (اختياري)</label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••">
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                        <small class="form-text">اتركها فارغة لو مش عايز تغيّر الباسورد.</small>
                     </div>
 
                     {{-- Image --}}
@@ -95,15 +104,20 @@
         </div>
     </div>
 @endsection
+
 @push('scripts')
     <script>
-        // معاينة الصورة فور اختيارها
-        document.getElementById('imageInput').addEventListener('change', function(event) {
+        // معاينة الصورة فور اختيارها (الكود كما هو)
+        document.getElementById('imageInput')?.addEventListener('change', function(event) {
             const image = event.target.files[0];
             if (image) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('previewImage').src = e.target.result;
+                    const preview = document.getElementById('previewImage');
+                    if (preview) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    }
                 };
                 reader.readAsDataURL(image);
             }

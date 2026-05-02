@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -16,12 +17,29 @@ class ApiResponseHelper
 
     public static function error(string $messageKey = 'messages.default_error', int $status = 400, $errors = null)
     {
+        if ($messageKey === 'messages.products.not_found') {
+            $perPage = (int) request('per_page', 10);
+
+            return response()->json([
+                'status'  => true,
+                'message' => __($messageKey),
+                'data'    => [],
+                'pagination' => [
+                    'current_page' => 1,
+                    'per_page'     => $perPage,
+                    'total'        => 0,
+                    'last_page'    => 0,
+                ],
+            ], 200); 
+        }
+
         return response()->json([
             'status'  => false,
             'message' => __($messageKey),
             'errors'  => $errors,
         ], $status);
     }
+
 
     public static function paginated(LengthAwarePaginator $items, string $messageKey = 'messages.default_success', int $status = 200, array $extra = [])
     {

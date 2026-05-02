@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('image')->nullable();
             $table->string('address');
-            $table->string('Postal_code');
-            $table->string('vodafone-cash');
+            $table->string('postal_code');
+            $table->string('vodafone_cash');
             $table->string('instapay');
             $table->tinyInteger('status')->default('0');
-            $table->tinyInteger('Type_business')->default(TypeBusiness::person);
+            $table->tinyInteger('type_business')->default(TypeBusiness::person);
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('country_id')->constrained('countries')->onDelete('cascade');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');

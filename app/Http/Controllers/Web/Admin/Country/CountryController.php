@@ -30,7 +30,7 @@ class CountryController extends Controller
     public function store(CountryRequest $request)
     {
         $this->countryService->store($request->validated());
-        return redirect()->route('country.index')->with('success', 'Country Created Successfully.');;
+        return redirect()->route('country.index')->with('success', 'Country Created Successfully.');
     }
 
     public function edit(string $id)

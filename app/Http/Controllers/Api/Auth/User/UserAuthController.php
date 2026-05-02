@@ -52,6 +52,11 @@ class UserAuthController extends Controller
         return $this->authService->forgetPassword($request->email);
     }
 
+    public function resendResetCode(SendResetCodeRequest $request)
+    {
+        return $this->authService->resendResetCode($request->email);
+    }
+
     public function verifyResetCode(VerifyResetCodeRequest $request)
     {
         return $this->authService->verifyResetCode($request->email, $request->code);

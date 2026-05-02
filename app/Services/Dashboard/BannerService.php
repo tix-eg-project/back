@@ -24,6 +24,7 @@ class BannerService
             [
                 'title' => $data['title'],
                 'description' => $data['description'],
+                'vendor_id' => $data['vendor_id'],
                 'image' => $data['image'],
             ]
         );
@@ -36,7 +37,11 @@ class BannerService
         $banner->update([
             'title' => $data['title'],
             'description' => $data['description'],
+
+            'vendor_id' => $data['vendor_id'],
+
         ]);
+
 
 
         if (!empty($data['image'])) {

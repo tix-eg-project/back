@@ -1,112 +1,107 @@
-@extends('Admin.layout.app')
+{{-- resources/views/Vendor/pages/profile/updateProfile.blade.php --}}
+@extends('Vendor.layout.app')
 
-@section('myProfile_active', 'active')
+@section('title', __('messages.edit_profile'))
 
 @section('content')
-    <style>
-        .center-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: calc(100vh - 200px);
-            padding: 2rem;
-            width: 100%;
-        }
+<div class="container-xxl flex-grow-1 container-p-y">
 
-        .profile-card {
-            background: #fff;
-            border-radius: 0.5rem;
-            padding: 2rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px;
-        }
+    <div class="row">
+        <div class="col-12 col-lg-8 mx-auto">
+            @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-        .form-text {
-            font-size: 0.875em;
-            color: #6c757d;
-        }
-    </style>
-
-    <div class="center-wrapper">
-        <div class="card profile-card">
-            <div class="card-header text-center">
-                <h5 class="mb-0">{{ Auth::user()->name }}</h5>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
             </div>
+            @endif
 
-            <div class="card-body">
-                <form method="post" action="{{ route('admin.updateProfile') }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('POST')
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">{{ __('messages.edit_profile') }}</h5>
+                    <a href="{{ route('vendor.dashboard') }}" class="btn btn-sm btn-outline-secondary">{{ __('messages.back_to_dashboard') }}</a>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ __('messages.Name') }}</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}"
-                            placeholder="{{ __('Enter your name') }}">
-                        @error('name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                <div class="card-body">
+                    <form action="{{ route('vendor.profile.update') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
 
+                        {{-- اسم صاحب الشركة --}}
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('messages.company_owner_name') }}</label>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name', $vendor->name) }}" required>
+                            @error('name') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ __('messages.Email') }}</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}"
-                            placeholder="{{ __('Enter your email') }}">
-                        @error('email')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                        {{-- الوصف --}}
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('messages.description') }}</label>
+                            <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="4">{{ old('description', $vendor->description) }}</textarea>
+                            @error('description') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ __('messages.Phone') }}</label>
-                        <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}"
-                            placeholder="{{ __('Enter your phone number') }}">
-                        @error('phone')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
+                        {{-- ✳️ كلمة المرور الجديدة (اختياري) --}}
+                        <div class="mb-3">
+                            <label class="form-label">{{ __('messages.new_password_optional') }}</label>
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="••••••••">
+                            <small class="text-muted d-block mt-1">{{ __('messages.leave_blank_if_no_change') }}</small>
+                            @error('password') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
 
-                    {{-- Image --}}
-                    <div class="mb-3">
-                        <label class="form-label">{{ __('messages.image') }}</label>
-                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                            accept="image/*">
-                        @error('image')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
+                        {{-- الصورة --}}
+                        <div class="mb-3">
+                            <label class="form-label d-block">{{ __('messages.personal_image') }}</label>
 
-                        {{-- Check if image exists and display it --}}
-                        @if ($user->image)
-                            <div class="mt-2">
-                                <img src="{{ asset($user->image) }}" width="80" alt="current image">
-                                <small class="text-white d-block mt-1">{{ basename($user->image) }}</small>
+                            @if($vendor->image)
+                            <div class="mb-2">
+                                <img id="previewImage" src="{{ asset($vendor->image) }}" alt="vendor image" style="max-height:120px">
                             </div>
-                        @endif
-                    </div>
+                            @else
+                            <img id="previewImage" src="" alt="" style="display:none;max-height:120px">
+                            @endif
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('admin.dashboard') }}" class="btn btn-warning">{{ __('messages.Back') }}</a>
-                        <button type="submit" class="btn btn-primary">{{ __('messages.Update') }}</button>
-                    </div>
+                            <input type="file" id="imageInput" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                            <small class="text-muted d-block mt-1">{{ __('messages.max_size_allowed_4mb') }}</small>
+                            @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
 
-                </form>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('vendor.dashboard') }}" class="btn btn-outline-secondary">{{ __('messages.Back') }}</a>
+                            <button type="submit" class="btn btn-primary">{{ __('messages.save_changes') }}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
+
+</div>
 @endsection
+
 @push('scripts')
-    <script>
-        // معاينة الصورة فور اختيارها
-        document.getElementById('imageInput').addEventListener('change', function(event) {
-            const image = event.target.files[0];
-            if (image) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('previewImage').src = e.target.result;
-                };
-                reader.readAsDataURL(image);
-            }
+<script>
+    // معاينة الصورة
+    const input = document.getElementById('imageInput');
+    const preview = document.getElementById('previewImage');
+    if (input) {
+        input.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                preview.src = ev.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         });
-    </script>
+    }
+</script>
 @endpush

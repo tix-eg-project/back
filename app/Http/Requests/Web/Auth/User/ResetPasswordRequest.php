@@ -1,5 +1,6 @@
 <?php
-namespace App\Http\Requests\Api\Auth\User;
+
+namespace App\Http\Requests\Web\Auth\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +17,8 @@ class ResetPasswordRequest extends FormRequest
             'email'    => 'required|email|exists:users,email',
             'New_password' => 'required|string|min:8|different:old_password',
             'New_password_confirmation' => 'required|string|same:New_password',
-               
-            
+
+
         ];
     }
 
@@ -34,8 +35,7 @@ class ResetPasswordRequest extends FormRequest
             'New_password_confirmation.required' => __('messages.password_confirmation_required'),
             'New_password_confirmation.string'   => __('messages.password_confirmation_string'),
             'New_password_confirmation.same'     => __('messages.password_confirmation_same'),
-            
+
         ];
     }
-
 }

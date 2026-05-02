@@ -2,100 +2,56 @@
 
 namespace App\Http\Controllers\Web\Admin\User;
 
-use Illuminate\Http\Request;
-use App\Models\{User, ModelHasRole};
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\{Hash, Session};
-use App\Http\Requests\User\{StoreUserRequest, UpdateUserRequest, ProfileRequest};
-
+use App\Http\Requests\Web\Admin\UpdateProfileRequest;
+use App\Http\Requests\Web\Admin\User\StoreAdminRequest;
+use App\Http\Requests\Web\Admin\User\UpdateAdminRequest;
+use App\Models\Admin;
+use App\Services\Dashboard\AdminProfileService;
+use App\Services\Dashboard\AdminService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct(private AdminService $adminService) {}
+
     public function index(Request $request)
     {
-        $query = User::where('id', '!=', auth()->id())
-            ->latest();
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-        $users = $query->paginate(10);
-        return view('Admin.pages.users.index', compact('users'));
+        $admins = $this->adminService->index();
+        return view('Admin.pages.admins.index', compact('admins'));
     }
 
-
-    // public function create()
-    // {
-
-    //     // $roles = Role::select(['id', 'name'])->get();
-    //     $countries = Country::all();
-    //     $cities = City::all();
-    //     return view('Admin.pages.users.create', compact('roles', 'countries', 'cities'));
-    // }
-
-    // public function store(StoreUserRequest $storeUserRequest)
-    // {
-    //     $data = $storeUserRequest->validated();
-    //     $data['password'] = Hash::make($storeUserRequest->password);
-    //     $user = User::create(collect($data)->except('image')->toArray());
-    //     if ($storeUserRequest->hasFile('image')) {
-    //         MediaHelper::uploadMedia($user, $storeUserRequest->file('image'), AuthEnum::AVATAR_COLLECTION_NAME);
-    //     }
-    //     if (isset($data['role_id'])) {
-    //         DB::table('model_has_roles')->insert([
-    //             'model_type' => User::class,
-    //             'model_id' => $user->id,
-    //             'role_id' => $data['role_id'],
-    //         ]);
-    //     }
-    //     Session::flash('message', ['type' => 'success', 'text' => __('User created successfully')]);
-    //     return redirect()->route('admin.pages.users.index');
-    // }
-
-    // public function edit(User $user)
-    // {
-    //     $roles = Role::select(['id', 'name'])->get();
-    //     $countries = Country::all();
-    //     $cities = City::all();
-    //     return view('Admin.pages.users.edit', compact('user', 'roles', 'countries', 'countries', 'cities'));
-    // }
-
-    // public function update(UpdateUserRequest $updateUserRequest, User $user)
-    // {
-
-    //     $data = $updateUserRequest->validated();
-    //     $data['password'] = $updateUserRequest->password ? Hash::make($updateUserRequest->password) : $user->password;
-    //     if ($updateUserRequest->hasFile('image')) {
-    //         MediaHelper::uploadMedia($user, $updateUserRequest->file('image'), AuthEnum::AVATAR_COLLECTION_NAME);
-    //     }
-    //     $user->update($data);
-    //     if (isset($data['role_id']) && !empty($data['role_id'])) {
-    //         $criteria = ['model_id' => $user->id];
-    //         $attributes = [
-    //             'model_type' => 'App\\Models\\User',
-    //             'model_id' => $user->id,
-    //             'role_id' => $updateUserRequest->role_id
-    //         ];
-    //         DB::table('model_has_roles')->updateOrInsert($criteria, $attributes);
-    //     } else {
-    //         DB::table('model_has_roles')->where('model_id', $user->id)->delete();
-    //     }
-    //     Session::flash('message', ['type' => 'success', 'text' => __('User updated successfully')]);
-    //     return redirect()->route('admin.pages.users.index');
-    // }
-
-
-
-    public function destroy($id)
+    public function create()
     {
-        $user = User::findOrFail($id);
-        if ($user->hasRole('admin')) {
-            return redirect()->back()->with('Error', 'لا يمكن حذف مستخدم Admin.');
+        $roles = $this->adminService->roles();
+        return view('Admin.pages.admins.create', compact('roles'));
+    }
+
+    public function store(StoreAdminRequest $request)
+    {
+        $this->adminService->store($request->validated());
+        return redirect()->route('admin.admins.index')->with('success', __('messages.added_successfully'));
+    }
+
+    public function edit(Admin $admin)
+    {
+        $roles = $this->adminService->roles();
+        return view('Admin.pages.admins.edit', compact('admin', 'roles'));
+    }
+
+    public function update(UpdateAdminRequest $request, Admin $admin)
+    {
+        $this->adminService->update($admin, $request->validated());
+        return redirect()->route('admin.admins.index')->with('success', __('messages.updated_successfully'));
+    }
+
+    public function destroy(Admin $admin)
+    {
+        try {
+            $this->adminService->delete($admin);
+            return redirect()->back()->with('success', __('messages.deleted_successfully'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        $user->delete();
-        return redirect()->back()->with('delete', 'تم حذف المستخدم بنجاح.');
     }
 }

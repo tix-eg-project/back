@@ -83,15 +83,26 @@
             <li class="dropdown nav-item lh-1 me-3">
                 <button class="dropdown-toggle bg-transparent border-0" data-bs-toggle="dropdown" aria-expanded="false"
                     aria-label="Language Menu">
-                    <i class="fas fa-globe text-white"></i>
+                    <i class="fas fa-globe fs-5"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('en') }}">English</a>
+                    <li>
+                        <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('en') }}">
+                            <img src="{{ asset('assets/img/flags/us_flag.jpg') }}" alt="English" width="20"
+                                class="me-2">
+                            {{ __('messages.English') }}
+                        </a>
                     </li>
-                    <li><a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('ar') }}">Arabic</a>
+                    <li>
+                        <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL('ar') }}">
+                            <img src="{{ asset('assets/img/flags/egypt_flag.jpg') }}" alt="Arabic" width="20"
+                                class="me-2">
+                            {{ __('messages.Arabic') }}
+                        </a>
                     </li>
                 </ul>
             </li>
+
 
 
 

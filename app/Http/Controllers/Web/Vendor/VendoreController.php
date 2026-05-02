@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class VendoreController extends Controller
 {
-
     public function __construct(private readonly VendoreService $vendoreService) {}
 
     public function index()
@@ -24,16 +23,17 @@ class VendoreController extends Controller
         return view('Admin.pages.vendors.showDetails', compact('vendor'));
     }
 
-
     public function updateStatus(Request $request, Vendor $vendor)
     {
         $request->validate([
-            'status' => 'required|in:0,1'
+            'status' => 'required|in:0,1',
         ]);
+
+        // الميل بقى جوّه السيرفيس
         $this->vendoreService->updateStatus($request->status, $vendor);
+
         return redirect()->back()->with('success', 'تم تحديث حالة الاشتراك بنجاح');
     }
-
 
     public function destroy(string $id)
     {
