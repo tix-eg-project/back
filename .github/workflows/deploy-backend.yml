@@ -31,4 +31,4 @@ jobs:
 
       - name: Run Remote Migrations
         run: |
-          curl -s https://admin.tix-eg.com/run-migrations
+          curl -k -s https://admin.tix-eg.com/run-migrations
