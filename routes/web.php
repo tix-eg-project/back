@@ -44,7 +44,7 @@ use App\Http\Controllers\Web\Vendor\Product\VendorProductReviewController;
 
 
 
-//vendor 
+//vendor
 
 use App\Http\Controllers\Web\Vendor\LoginVendorController;
 use App\Http\Controllers\Web\Vendor\Offer\VendorOfferController;
@@ -371,7 +371,7 @@ Route::group([
             Route::put('{admin}', [UserController::class, 'update'])->name('update');
             Route::delete('{admin}', [UserController::class, 'destroy'])->name('destroy');
         });
-    
+
         Route::get('returns', [AdminReturnRequestController::class, 'index'])->name('admin.returns.index');
         Route::get('returns/{return_request}', [AdminReturnRequestController::class, 'show'])->name('admin.returns.show');
         Route::get('returns/{return_request}/edit', [AdminReturnRequestController::class, 'edit'])->name('admin.returns.edit');
@@ -383,7 +383,7 @@ Route::group([
 
         Route::get('damaged-stocks', [AdminDamagedStockController::class, 'index'])->name('admin.damaged-stocks.index');
         Route::get('damaged-stocks/{}', [AdminDamagedStockController::class, 'show'])->name('admin.damaged-stocks.show');
-        
+
                Route::get('vsoft-cities', [AdminVSoftCityController::class, 'index'])->name('admin.vsoft-cities.index');
         Route::get('vsoft-cities/{id}/edit', [AdminVSoftCityController::class, 'edit'])->name('admin.vsoft-cities.edit');
         Route::post('vsoft-cities/{id}', [AdminVSoftCityController::class, 'update'])->name('admin.vsoft-cities.update');
@@ -459,7 +459,7 @@ Route::group([
                 Route::put('/update/{product}',   [VendorProductController::class, 'update'])->name('update');
                 Route::delete('/delete/{product}', [VendorProductController::class, 'destroy'])->name('delete');
             });
-            
+
             // REVIEWS (vendor/reviews/…)
             Route::prefix('reviews')->as('reviews.')->group(function () {
                 Route::get('/', [VendorProductReviewController::class, 'index'])->name('index');
@@ -511,7 +511,7 @@ Route::group([
             Route::put('orders/{order}', [VendorOrderController::class, 'update'])->name('orders.update');
             Route::get('orders/{order}', [VendorOrderController::class, 'show'])->name('orders.show');
             Route::delete('orders/{order}', [VendorOrderController::class, 'destroy'])->name('orders.destroy');
-            
+
             Route::get('returns', [VendorReturnRequestController::class, 'index'])->name('returns.index');
             Route::get('returns/{return_request}', [VendorReturnRequestController::class, 'show'])->name('returns.show');
             Route::get('returns/{return_request}/edit', [VendorReturnRequestController::class, 'edit'])->name('returns.edit');
@@ -523,7 +523,7 @@ Route::group([
 
             Route::get('damaged-stocks', [VendorDamagedStockController::class, 'index'])->name('damaged-stocks.index');
             Route::get('damaged-stocks/{}', [VendorDamagedStockController::class, 'show'])->name('damaged-stocks.show');
-            
+
             Route::get('/notifications/open/{id}', [VendorNotificationController::class, 'open'])
                 ->name('notifications.open');
 
@@ -531,4 +531,21 @@ Route::group([
             Route::post('/notifications/read-all', [VendorNotificationController::class, 'readAll'])
                 ->name('notifications.readAll');
         });
+});
+
+Route::get('/clear-everything', function () {
+    \Illuminate\Support\Facades\Artisan::call('route::clear');
+    \Illuminate\Support\Facades\Artisan::call('config::clear');
+    \Illuminate\Support\Facades\Artisan::call('cache::clear');
+    \Illuminate\Support\Facades\Artisan::call('view::clear');
+    return "Caches are cleared!";
+});
+
+Route::get('/run-storage-link', function () {
+    if (file_exists(public_path('storage'))) {
+        @unlink(public_path('storage'));
+    }
+
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return "Storage link created successfully!";
 });

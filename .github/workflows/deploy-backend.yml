@@ -32,3 +32,11 @@ jobs:
       - name: Run Remote Migrations
         run: |
           curl -k -s https://admin.tix-eg.com/run-migrations
+
+      - name: Clear Laravel Cache
+        run: |
+          curl -k -s https://admin.tix-eg.com/clear-everything
+
+      - name: Create Storage Link for Images
+        run: |
+          curl -k -s https://admin.tix-eg.com/run-storage-link
