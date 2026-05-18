@@ -1,0 +1,44 @@
+name: Deploy Backend to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies & Build Assets
+        run: |
+          npm install
+          npm run build
+
+      - name: Sync Files to cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.CPANEL_FTP_SERVER }}
+          username: ${{ secrets.CPANEL_FTP_USERNAME }}
+          password: ${{ secrets.CPANEL_FTP_PASSWORD }}
+          server-dir: /admin.tix-eg.com/
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/vendor/**
+            .env
+            storage/logs/**
+            tests/**
+            README.md
+
+      - name: Run Remote Migrations
+        run: |
+          curl -s https://admin.tix-eg.com/run-migrations
