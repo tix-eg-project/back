@@ -13,6 +13,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Dependencies & Build Assets
+        run: |
+          npm install
+          npm run build --if-present
+
       - name: Sync Files to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -25,6 +35,8 @@ jobs:
             **/node_modules/**
             **/vendor/**
             .env
+            .htaccess
+            index.php
             storage/logs/**
             tests/**
             README.md

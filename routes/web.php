@@ -534,18 +534,29 @@ Route::group([
 });
 
 Route::get('/clear-everything', function () {
-    \Illuminate\Support\Facades\Artisan::call('route::clear');
-    \Illuminate\Support\Facades\Artisan::call('config::clear');
-    \Illuminate\Support\Facades\Artisan::call('cache::clear');
-    \Illuminate\Support\Facades\Artisan::call('view::clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
     return "Caches are cleared!";
 });
 
 Route::get('/run-storage-link', function () {
-    if (file_exists(public_path('storage'))) {
-        @unlink(public_path('storage'));
+    $shortcut = base_path('storage');
+    $target = storage_path('app/public');
+
+    if (file_exists($shortcut) || is_link($shortcut)) {
+        @unlink($shortcut);
     }
 
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-    return "Storage link created successfully!";
+    if (symlink($target, $shortcut)) {
+        return "Storage link created successfully in Base Path! 🎉";
+    }
+
+    return "Failed to create storage link.";
+});
+
+Route::get('/run-migrations', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return 'Migrations executed successfully!';
 });
